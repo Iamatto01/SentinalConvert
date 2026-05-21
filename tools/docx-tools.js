@@ -21,7 +21,19 @@ registerTool({
       try {
         // We need mammoth.js and html2pdf.js loaded for this
         if (typeof mammoth === "undefined") {
+          try {
             await loadScript("https://cdn.jsdelivr.net/npm/mammoth@1.4.22/mammoth.browser.min.js");
+          } catch (errPrimary) {
+            try {
+              await loadScript("https://unpkg.com/mammoth@1.4.22/mammoth.browser.min.js");
+            } catch (errUnpkg) {
+              try {
+                await loadScript("https://unpkg.com/mammoth@1.4.22/browser/mammoth.browser.min.js");
+              } catch (errAlt) {
+                throw new Error('Failed to load mammoth.js from CDN. Check your network or use a local copy.');
+              }
+            }
+          }
         }
         if (typeof html2pdf === "undefined") {
             await loadScript("https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js");
