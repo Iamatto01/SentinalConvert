@@ -101,7 +101,15 @@ registerTool({
         // Load docx library if not present
         if (typeof window.docx === "undefined") {
             showStatus(body, "Loading DOCX library…", "loading");
-            await loadScript("https://unpkg.com/docx@8.2.3/build/index.js");
+            try {
+                await loadScript("https://unpkg.com/docx@8.2.3/build/index.umd.js");
+            } catch (err) {
+                try {
+                    await loadScript("https://cdn.jsdelivr.net/npm/docx@8.2.3/build/index.umd.js");
+                } catch (err2) {
+                    throw new Error("Failed to load DOCX library from CDN");
+                }
+            }
             // Wait a bit for the library to initialize
             await new Promise(r => setTimeout(r, 100));
         }
