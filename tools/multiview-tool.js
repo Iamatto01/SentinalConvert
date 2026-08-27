@@ -898,7 +898,8 @@
       .mv-ctrl-remove:hover { background: #f87171; color: #fff; border-color: #f87171; }
 
       /* ═══════════════════════════════════════════════════════
-         HYPER-REALISTIC PHONE CHASSIS & HARDWARE MOCKUPS
+         PHOTOREALISTIC PHONE HARDWARE MOCKUPS
+         Multi-layer 3D depth, titanium edges, inner bezel rings
          ═══════════════════════════════════════════════════════ */
       .mv-phone-wrapper {
         position: relative;
@@ -906,103 +907,270 @@
         transform-origin: top center;
         transform: scale(var(--zoom, 0.65));
         margin-bottom: calc(-1 * (1 - var(--zoom, 0.65)) * 100%);
+        /* Ambient floor shadow under the device */
+        filter: drop-shadow(0 40px 30px rgba(0, 0, 0, 0.55));
       }
 
+      /* ── Base Chassis (shared by all devices) ── */
       .mv-phone-chassis {
         position: relative;
-        background: linear-gradient(145deg, #2c2e3a 0%, #161720 45%, #2a2c38 100%);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 40px 100px rgba(0, 0, 0, 0.75), 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.3);
       }
 
-      /* Physical Hardware Buttons on Side */
-      .mv-hw-btn {
-        position: absolute;
-        background: linear-gradient(to bottom, #3f4252, #21232d);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        box-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        pointer-events: none;
-      }
-      .mv-btn-action { left: -5px; top: 110px; width: 5px; height: 28px; border-radius: 3px 0 0 3px; }
-      .mv-btn-vol-up { left: -5px; top: 155px; width: 5px; height: 52px; border-radius: 3px 0 0 3px; }
-      .mv-btn-vol-down { left: -5px; top: 220px; width: 5px; height: 52px; border-radius: 3px 0 0 3px; }
-      .mv-btn-power { right: -5px; top: 175px; width: 5px; height: 78px; border-radius: 0 3px 3px 0; }
-
-      /* Antenna Bands */
-      .mv-antenna { position: absolute; width: 5px; height: 3px; background: rgba(0,0,0,0.6); pointer-events: none; }
-      .mv-ant-tl { left: -1px; top: 75px; }
-      .mv-ant-tr { right: -1px; top: 75px; }
-      .mv-ant-bl { left: -1px; bottom: 75px; }
-      .mv-ant-br { right: -1px; bottom: 75px; }
-
-      /* 1. iPhone 17 Pro Max / 16 Pro (Titanium Curvature) */
+      /* ── iPhone Titanium Body (Dynamic Island devices) ── */
       .skin-ios-island {
-        border-radius: 54px;
-        padding: 14px;
+        border-radius: 58px;
+        padding: 16px;
+        /* Multi-layer titanium gradient */
+        background:
+          linear-gradient(170deg,
+            #4a4d5e 0%,
+            #2b2d3a 8%,
+            #1a1c26 20%,
+            #17181f 50%,
+            #1a1c26 80%,
+            #2b2d3a 92%,
+            #3e4050 100%
+          );
+        /* Outer metal rim highlight + inner shadow for depth */
+        border: 3px solid transparent;
+        background-clip: padding-box;
+        box-shadow:
+          /* Outer highlight (top-left light source) */
+          0 0 0 1px rgba(120, 125, 155, 0.45),
+          /* Outer bright edge (metal rim catch) */
+          0 0 0 3px #2a2c38,
+          0 0 0 4px rgba(100, 105, 130, 0.35),
+          /* Ambient shadow */
+          0 30px 60px rgba(0, 0, 0, 0.5),
+          0 10px 20px rgba(0, 0, 0, 0.3),
+          /* Inner top highlight */
+          inset 0 2px 3px rgba(255, 255, 255, 0.15),
+          /* Inner bottom shadow */
+          inset 0 -2px 3px rgba(0, 0, 0, 0.3);
       }
       .skin-ios-island .mv-screen-box {
-        border-radius: 42px;
+        border-radius: 44px;
+        /* Inner bezel ring around the screen */
+        box-shadow:
+          0 0 0 2px #0a0b0f,
+          0 0 0 3px rgba(60, 64, 80, 0.5),
+          inset 0 0 0 1px rgba(0, 0, 0, 0.3);
       }
 
-      /* 2. Samsung S25 Ultra (Subtle Sharp Modern Corners) */
+      /* ── Samsung S25 Ultra / Android Flagships ── */
       .skin-android-hole {
-        border-radius: 36px;
-        padding: 12px;
+        border-radius: 38px;
+        padding: 14px;
+        background:
+          linear-gradient(165deg,
+            #3d3f4e 0%,
+            #25272f 10%,
+            #1b1c24 25%,
+            #151620 50%,
+            #1b1c24 75%,
+            #25272f 90%,
+            #36384a 100%
+          );
+        border: 3px solid transparent;
+        background-clip: padding-box;
+        box-shadow:
+          0 0 0 1px rgba(100, 105, 135, 0.4),
+          0 0 0 3px #232530,
+          0 0 0 4px rgba(90, 95, 120, 0.3),
+          0 30px 60px rgba(0, 0, 0, 0.5),
+          0 10px 20px rgba(0, 0, 0, 0.3),
+          inset 0 2px 3px rgba(255, 255, 255, 0.12),
+          inset 0 -2px 3px rgba(0, 0, 0, 0.25);
       }
       .skin-android-hole .mv-screen-box {
-        border-radius: 26px;
+        border-radius: 28px;
+        box-shadow:
+          0 0 0 2px #08090d,
+          0 0 0 3px rgba(50, 54, 70, 0.5),
+          inset 0 0 0 1px rgba(0, 0, 0, 0.3);
       }
 
-      /* 3. iPad / Tablets */
+      /* ── iPhone SE / Classic (Home Button) ── */
+      .skin-ios-classic {
+        border-radius: 50px;
+        padding: 70px 14px 80px 14px;
+        background:
+          linear-gradient(170deg, #48495a 0%, #2a2c38 15%, #17181f 50%, #2a2c38 85%, #3e3f50 100%);
+        box-shadow:
+          0 0 0 1px rgba(120, 125, 155, 0.4),
+          0 0 0 3px #2a2c38,
+          0 30px 60px rgba(0, 0, 0, 0.5),
+          inset 0 2px 3px rgba(255, 255, 255, 0.12),
+          inset 0 -2px 3px rgba(0, 0, 0, 0.25);
+      }
+      .skin-ios-classic .mv-screen-box {
+        border-radius: 4px;
+        box-shadow: 0 0 0 2px #0a0b0f;
+      }
+      /* Home button for classic iPhone */
+      .skin-ios-classic::after {
+        content: "";
+        position: absolute;
+        bottom: 22px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        border: 2.5px solid rgba(120, 125, 155, 0.35);
+        background: linear-gradient(145deg, #1e2028, #15161d);
+        pointer-events: none;
+      }
+      /* Earpiece speaker for classic iPhone */
+      .skin-ios-classic::before {
+        content: "";
+        position: absolute;
+        top: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 55px;
+        height: 6px;
+        border-radius: 3px;
+        background: #0d0e14;
+        border: 1px solid rgba(40, 42, 56, 0.5);
+        pointer-events: none;
+      }
+
+      /* ── Physical Hardware Side Buttons ── */
+      .mv-hw-btn {
+        position: absolute;
+        pointer-events: none;
+        z-index: 200;
+      }
+      /* Left: Silent/Action switch */
+      .mv-btn-action {
+        left: -7px;
+        top: 120px;
+        width: 7px;
+        height: 30px;
+        border-radius: 4px 0 0 4px;
+        background: linear-gradient(to bottom, #555770, #35374a, #2a2c3a);
+        box-shadow:
+          -1px 0 2px rgba(0, 0, 0, 0.5),
+          inset 1px 0 1px rgba(255, 255, 255, 0.1);
+      }
+      /* Left: Volume Up */
+      .mv-btn-vol-up {
+        left: -7px;
+        top: 175px;
+        width: 7px;
+        height: 55px;
+        border-radius: 4px 0 0 4px;
+        background: linear-gradient(to bottom, #555770, #35374a, #2a2c3a);
+        box-shadow:
+          -1px 0 2px rgba(0, 0, 0, 0.5),
+          inset 1px 0 1px rgba(255, 255, 255, 0.1);
+      }
+      /* Left: Volume Down */
+      .mv-btn-vol-down {
+        left: -7px;
+        top: 245px;
+        width: 7px;
+        height: 55px;
+        border-radius: 4px 0 0 4px;
+        background: linear-gradient(to bottom, #555770, #35374a, #2a2c3a);
+        box-shadow:
+          -1px 0 2px rgba(0, 0, 0, 0.5),
+          inset 1px 0 1px rgba(255, 255, 255, 0.1);
+      }
+      /* Right: Power / Lock */
+      .mv-btn-power {
+        right: -7px;
+        top: 195px;
+        width: 7px;
+        height: 85px;
+        border-radius: 0 4px 4px 0;
+        background: linear-gradient(to bottom, #555770, #35374a, #2a2c3a);
+        box-shadow:
+          1px 0 2px rgba(0, 0, 0, 0.5),
+          inset -1px 0 1px rgba(255, 255, 255, 0.1);
+      }
+
+      /* Antenna Line Cutouts */
+      .mv-antenna {
+        position: absolute;
+        pointer-events: none;
+        background: rgba(0, 0, 0, 0.5);
+      }
+      .mv-ant-tl { left: -1px; top: 80px; width: 4px; height: 2px; }
+      .mv-ant-tr { right: -1px; top: 80px; width: 4px; height: 2px; }
+      .mv-ant-bl { left: -1px; bottom: 80px; width: 4px; height: 2px; }
+      .mv-ant-br { right: -1px; bottom: 80px; width: 4px; height: 2px; }
+
+      /* ── Tablets ── */
       .skin-tablet-ios, .skin-tablet-android, .skin-foldable {
-        border-radius: 32px;
-        padding: 18px;
+        border-radius: 30px;
+        padding: 20px;
+        background:
+          linear-gradient(170deg, #3e4050 0%, #22242e 15%, #17181f 50%, #22242e 85%, #3a3c4d 100%);
+        box-shadow:
+          0 0 0 1px rgba(100, 105, 130, 0.35),
+          0 0 0 3px #222430,
+          0 30px 60px rgba(0, 0, 0, 0.5),
+          inset 0 1px 2px rgba(255, 255, 255, 0.1),
+          inset 0 -1px 2px rgba(0, 0, 0, 0.2);
       }
       .skin-tablet-ios .mv-screen-box, .skin-tablet-android .mv-screen-box, .skin-foldable .mv-screen-box {
-        border-radius: 18px;
+        border-radius: 14px;
+        box-shadow: 0 0 0 2px #08090d;
       }
 
-      /* 4. MacBook Pro 16" */
+      /* ── MacBook Pro 16" ── */
       .skin-laptop-mac {
-        border-radius: 18px 18px 0 0;
-        padding: 14px 14px 0 14px;
-        background: #121318;
+        border-radius: 16px 16px 0 0;
+        padding: 16px 16px 0 16px;
+        background:
+          linear-gradient(170deg, #3a3c4d 0%, #1e2028 15%, #121318 50%, #1e2028 85%, #333548 100%);
+        box-shadow:
+          0 0 0 1px rgba(90, 95, 120, 0.3),
+          0 0 0 2px #1e2028,
+          0 30px 60px rgba(0, 0, 0, 0.5),
+          inset 0 1px 2px rgba(255, 255, 255, 0.08);
       }
-      .skin-laptop-mac .mv-screen-box { border-radius: 10px 10px 0 0; }
+      .skin-laptop-mac .mv-screen-box {
+        border-radius: 8px 8px 0 0;
+        box-shadow: 0 0 0 2px #08090d;
+      }
       .mv-mac-notch {
         position: absolute;
-        top: 14px;
+        top: 16px;
         left: 50%;
         transform: translateX(-50%);
         width: 130px;
-        height: 18px;
+        height: 20px;
         background: #000;
-        border-bottom-left-radius: 10px;
-        border-bottom-right-radius: 10px;
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
         z-index: 200;
         pointer-events: none;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
       }
       .mv-mac-cam {
         position: absolute;
-        top: 4px;
+        top: 5px;
         left: 50%;
         transform: translateX(-50%);
-        width: 8px;
-        height: 8px;
-        background: #111422;
+        width: 7px;
+        height: 7px;
+        background: radial-gradient(circle, #1a1d30 30%, #0a0b12 80%);
         border-radius: 50%;
-        border: 1px solid #282a3a;
+        border: 1px solid #262840;
+        box-shadow: 0 0 3px rgba(40, 50, 100, 0.4);
       }
       .mv-laptop-base {
-        width: calc(100% + 44px);
-        height: 18px;
-        margin-left: -22px;
-        background: linear-gradient(to bottom, #2d2f3d, #181922);
+        width: calc(100% + 50px);
+        height: 20px;
+        margin-left: -25px;
+        background: linear-gradient(to bottom, #2d2f3d, #181922, #141520);
         border-radius: 0 0 14px 14px;
-        border: 1px solid #3c3e4e;
+        border: 1px solid rgba(60, 64, 80, 0.5);
         border-top: none;
-        box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
         position: relative;
       }
       .mv-laptop-base::after {
@@ -1011,50 +1179,105 @@
         top: 0;
         left: 50%;
         transform: translateX(-50%);
-        width: 80px;
+        width: 90px;
         height: 5px;
-        background: #101117;
+        background: #0c0d14;
         border-radius: 0 0 5px 5px;
+        border: 1px solid rgba(40, 42, 56, 0.4);
+        border-top: none;
       }
 
-      /* 5. Apple Watch Ultra 2 (49mm Titanium Case) */
+      /* ── Apple Watch Ultra 2 (Titanium Orange Case) ── */
       .skin-watch-apple-ultra {
-        border-radius: 46px;
-        padding: 18px;
-        background: linear-gradient(135deg, #d3874b 0%, #a46433 100%);
+        border-radius: 44px;
+        padding: 20px;
+        background:
+          linear-gradient(145deg, #e8a060 0%, #c07838 25%, #a86428 50%, #c07838 75%, #d49050 100%);
         border: 4px solid #8c5225;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+        box-shadow:
+          0 0 0 2px rgba(200, 140, 60, 0.4),
+          0 20px 50px rgba(0, 0, 0, 0.6),
+          inset 0 2px 4px rgba(255, 220, 160, 0.3),
+          inset 0 -2px 4px rgba(80, 40, 10, 0.4);
       }
-      .skin-watch-apple-ultra .mv-screen-box { border-radius: 30px; }
+      .skin-watch-apple-ultra .mv-screen-box {
+        border-radius: 30px;
+        box-shadow: 0 0 0 3px #1a1008, 0 0 0 5px rgba(120, 80, 30, 0.4);
+      }
       .mv-watch-crown {
         position: absolute;
-        right: -10px;
-        top: 32%;
+        right: -12px;
+        top: 30%;
+        width: 10px;
+        height: 32px;
+        background: linear-gradient(to right, #a0a3b5, #6b6e80, #505368);
+        border-radius: 5px;
+        box-shadow: 2px 0 4px rgba(0, 0, 0, 0.5), inset -1px 0 1px rgba(255, 255, 255, 0.15);
+      }
+      /* Side button below crown */
+      .mv-watch-crown::after {
+        content: "";
+        position: absolute;
+        top: 45px;
+        left: 1px;
         width: 8px;
-        height: 30px;
-        background: linear-gradient(to right, #808396, #4b4d5a);
+        height: 16px;
+        background: linear-gradient(to right, #9093a5, #60637a);
         border-radius: 4px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        box-shadow: 1px 0 3px rgba(0, 0, 0, 0.4);
       }
 
-      /* 6. Galaxy Watch 7 (Round AMOLED) */
+      /* Apple Watch Series 10 (Standard) */
+      .skin-watch-apple {
+        border-radius: 38px;
+        padding: 16px;
+        background:
+          linear-gradient(145deg, #38394a 0%, #1e2028 30%, #151620 60%, #22232e 100%);
+        border: 3px solid #2a2c3a;
+        box-shadow:
+          0 0 0 1px rgba(70, 75, 95, 0.35),
+          0 20px 50px rgba(0, 0, 0, 0.6),
+          inset 0 1px 3px rgba(255, 255, 255, 0.1),
+          inset 0 -1px 3px rgba(0, 0, 0, 0.3);
+      }
+      .skin-watch-apple .mv-screen-box {
+        border-radius: 24px;
+        box-shadow: 0 0 0 2px #0a0b0f;
+      }
+
+      /* ── Galaxy Watch / Round Wearables ── */
       .skin-watch-round {
         border-radius: 50%;
-        padding: 16px;
-        background: #15161c;
-        border: 4px solid #313342;
+        padding: 18px;
+        background:
+          linear-gradient(145deg, #353748 0%, #1a1c26 35%, #12131a 60%, #252738 100%);
+        border: 4px solid #2d2f3d;
+        box-shadow:
+          0 0 0 2px rgba(60, 64, 80, 0.3),
+          0 20px 50px rgba(0, 0, 0, 0.6),
+          inset 0 2px 4px rgba(255, 255, 255, 0.08),
+          inset 0 -2px 4px rgba(0, 0, 0, 0.3);
       }
-      .skin-watch-round .mv-screen-box { border-radius: 50%; }
+      .skin-watch-round .mv-screen-box {
+        border-radius: 50%;
+        box-shadow: 0 0 0 2px #0a0b0f, 0 0 0 3px rgba(50, 54, 70, 0.4);
+      }
 
-      /* Desktop monitor */
+      /* ── Desktop Monitor / Standard Window ── */
       .skin-monitor, .skin-laptop, .skin-window {
-        border-radius: 12px;
-        padding: 10px;
-        background: #171821;
-        border: 2px solid #2d2f3d;
+        border-radius: 14px;
+        padding: 12px;
+        background:
+          linear-gradient(170deg, #333548 0%, #1a1c26 20%, #121318 50%, #1a1c26 80%, #2d2f3d 100%);
+        border: 2px solid #2a2c3a;
+        box-shadow:
+          0 0 0 1px rgba(60, 64, 80, 0.3),
+          0 20px 50px rgba(0, 0, 0, 0.5),
+          inset 0 1px 2px rgba(255, 255, 255, 0.06);
       }
       .skin-monitor .mv-screen-box, .skin-laptop .mv-screen-box, .skin-window .mv-screen-box {
         border-radius: 6px;
+        box-shadow: 0 0 0 2px #08090d;
       }
 
       /* Screen Box containing iframe */
@@ -1072,13 +1295,24 @@
         background: #fff;
       }
 
-      /* Screen Gloss Overlay */
+      /* Screen Gloss Overlay — Simulates real gorilla glass light catch */
       .mv-screen-glare {
         position: absolute;
         inset: 0;
         pointer-events: none;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 40%, transparent 60%);
         z-index: 60;
+        background:
+          /* Primary diagonal glare sweep */
+          linear-gradient(
+            125deg,
+            rgba(255, 255, 255, 0.08) 0%,
+            rgba(255, 255, 255, 0.04) 15%,
+            rgba(255, 255, 255, 0.01) 30%,
+            transparent 45%,
+            transparent 100%
+          );
+        /* Subtle edge highlight */
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
       }
 
       /* ── Realistic Mobile OS Status Bar Overlays ── */
