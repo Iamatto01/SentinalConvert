@@ -1,0 +1,65 @@
+{
+  "name": "sentinelconvert",
+  "version": "2.0.0",
+  "description": "Free Student Toolkit — 31 tools for PDF, images, media, documents, and more",
+  "main": "electron/main.js",
+  "author": "SentinelConvert",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "dist:win": "electron-builder --win portable",
+    "dist:all": "electron-builder --win --mac --linux"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.0.0"
+  },
+  "build": {
+    "appId": "com.sentinelconvert.app",
+    "productName": "SentinelConvert",
+    "directories": {
+      "output": "dist-electron"
+    },
+    "files": [
+      "electron/**/*",
+      "libs/**/*",
+      "tools/**/*",
+      "app.js",
+      "styles.css",
+      "coi-serviceworker.js",
+      "instances.json",
+      "electron/index.html"
+    ],
+    "extraResources": [
+      {
+        "from": "libs",
+        "to": "libs"
+      }
+    ],
+    "win": {
+      "target": [
+        "portable",
+        "nsis"
+      ],
+      "icon": "electron/icon.ico"
+    },
+    "portable": {
+      "artifactName": "SentinelConvert-${version}-portable.exe"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "SentinelConvert-${version}-setup.exe"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "electron/icon.icns"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "electron/icon.png"
+    }
+  }
+}

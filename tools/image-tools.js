@@ -1,6 +1,6 @@
 /* Image Format Converter */
 registerTool({
-  id: "image-convert", name: "Convert Image", icon: "🔄", desc: "Convert between PNG, JPG, WEBP, BMP, GIF, SVG",
+  id: "image-convert", name: "Convert Image", icon: "🔄", desc: "Convert between PNG, JPG, WEBP, and SVG",
   category: "Image Tools", catIcon: "🖼️",
   render(body) {
     let files = [];
@@ -8,7 +8,7 @@ registerTool({
 
     createDropZone(body, {
       accept: "image/*", multiple: true,
-      label: "Drop images here", sublabel: "PNG, JPG, WEBP, BMP, GIF",
+      label: "Drop images here", sublabel: "PNG, JPG, WEBP, and SVG input",
       onFiles(f) { files.push(...f); refresh(); }
     });
 
@@ -16,8 +16,7 @@ registerTool({
     opts.innerHTML = `<div class="opt-group"><span class="opt-label">Convert to:</span>
       <select class="opt-select" id="targetFmt">
         <option value="png">PNG</option><option value="jpg">JPG</option>
-        <option value="webp">WEBP</option><option value="bmp">BMP</option>
-        <option value="gif">GIF</option><option value="svg">SVG</option>
+        <option value="webp">WEBP</option><option value="svg">SVG</option>
       </select></div>
       <div class="opt-group"><span class="opt-label">Quality:</span>
       <input type="range" min="10" max="100" value="92" id="quality" class="opt-input" style="width:100px" />
@@ -63,10 +62,10 @@ async function convertImg(file, ext, quality) {
     return new Blob([svg], { type: "image/svg+xml" });
   }
 
-  if (["jpg","jpeg","bmp"].includes(ext)) { ctx.fillStyle="#fff"; ctx.fillRect(0,0,canvas.width,canvas.height); }
+  if (["jpg","jpeg"].includes(ext)) { ctx.fillStyle="#fff"; ctx.fillRect(0,0,canvas.width,canvas.height); }
   ctx.drawImage(img, 0, 0);
 
-  const mimes = { png:"image/png", jpg:"image/jpeg", jpeg:"image/jpeg", webp:"image/webp", bmp:"image/bmp", gif:"image/gif" };
+  const mimes = { png:"image/png", jpg:"image/jpeg", jpeg:"image/jpeg", webp:"image/webp" };
   return new Promise((res, rej) => {
     canvas.toBlob(b => b ? res(b) : rej(new Error("Export failed")), mimes[ext] || "image/png", quality);
   });

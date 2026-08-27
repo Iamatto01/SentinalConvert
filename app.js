@@ -3,9 +3,12 @@
    Main App: Router, Tool Registry, Common UI
    ═══════════════════════════════════════════════════════ */
 
-// PDF.js worker
+// PDF.js worker — local path in Electron, CDN in browser
 if (typeof pdfjsLib !== "undefined") {
-  pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+  const isElectron = !!(typeof window !== "undefined" && window.electronAPI && window.electronAPI.isElectron);
+  pdfjsLib.GlobalWorkerOptions.workerSrc = isElectron
+    ? "../libs/pdf.worker.min.js"
+    : "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
 }
 
 /* ── Tool Registry ── */
@@ -39,12 +42,20 @@ function loadImg(file) {
 }
 
 function loadScript(src) {
-  if (document.querySelector(`script[src="${src}"]`)) return Promise.resolve();
+  const existing = document.querySelector(`script[src="${src}"]`);
+  if (existing?.dataset.loaded === "true") return Promise.resolve();
+  if (existing) existing.remove();
   return new Promise((resolve, reject) => {
     const script = document.createElement("script");
     script.src = src;
-    script.onload = () => setTimeout(resolve, 100);
-    script.onerror = () => reject(new Error(`Failed to load ${src}`));
+    script.onload = () => {
+      script.dataset.loaded = "true";
+      resolve();
+    };
+    script.onerror = () => {
+      script.remove();
+      reject(new Error(`Failed to load ${src}`));
+    };
     document.head.appendChild(script);
   });
 }

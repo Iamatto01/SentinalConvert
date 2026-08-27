@@ -198,10 +198,10 @@ registerTool({
         return;
       }
 
-      let redirectUrl = "https://cobalt.tools/"; // fallback
-
       // Simple router for external downloaders
       const lowerUrl = url.toLowerCase();
+      let redirectUrl = null;
+
       if (lowerUrl.includes("youtube.com") || lowerUrl.includes("youtu.be")) {
         redirectUrl = `https://ssyoutube.com/en176XV/?url=${encodeURIComponent(url)}`;
       } else if (lowerUrl.includes("instagram.com") || lowerUrl.includes("facebook.com") || lowerUrl.includes("fb.watch")) {
@@ -210,19 +210,17 @@ registerTool({
         redirectUrl = `https://snaptik.app/en?url=${encodeURIComponent(url)}`;
       } else if (lowerUrl.includes("twitter.com") || lowerUrl.includes("x.com")) {
         redirectUrl = `https://ssstwitter.com/?url=${encodeURIComponent(url)}`;
+      } else {
+        redirectUrl = `https://cobalt.tools/?url=${encodeURIComponent(url)}`;
       }
 
-      socialResult.innerHTML = `<div class="status-bar ok">Redirecting to safe downloader in new tab...</div>`;
-      
-      // Note: third-party sites often default to MP4. Users select MP3 on the site itself.
-      if (format === 'mp3' && redirectUrl === "https://cobalt.tools/") {
-         // Cobalt allows users to choose audio visually
-      }
+      socialResult.innerHTML = `<div class="status-bar ok">Opening external downloader in new tab…</div>`;
 
       setTimeout(() => {
         window.open(redirectUrl, '_blank');
         socialResult.innerHTML = "";
-      }, 1000);
+        socialUrl.value = "";
+      }, 800);
     }
 
     btnMp4.addEventListener("click", () => handleDownload('mp4'));

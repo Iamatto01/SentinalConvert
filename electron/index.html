@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' blob: data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; worker-src 'self' blob:; connect-src 'self' https://co.wuk.sh https://api.web3forms.com;" />
+    <title>SentinelConvert — Free Student Toolkit</title>
+    <meta name="description" content="Free offline tools for students: Merge PDF, Split PDF, Convert images, Remove backgrounds, and more." />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <div class="bg-orb orb-a"></div>
+    <div class="bg-orb orb-b"></div>
+    <div class="bg-orb orb-c"></div>
+
+    <main id="app"></main>
+
+    <!-- Floating feedback button -->
+    <button id="feedbackBtn" class="feedback-btn" aria-label="Send feedback">✉ Feedback</button>
+
+    <!-- Feedback Modal -->
+    <div id="feedbackModal" class="feedback-modal">
+      <div class="feedback-modal-content">
+        <div class="feedback-modal-header">
+          <h2>Send Feedback</h2>
+          <button class="feedback-modal-close" id="feedbackCloseBtn">✕</button>
+        </div>
+        <form id="feedbackForm" class="feedback-form">
+          <div class="form-group">
+            <label for="feedbackMessage">Your Comment / Message <span class="required">*</span></label>
+            <textarea id="feedbackMessage" name="message" required placeholder="Tell us what you think..." rows="5"></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" id="feedbackCancelBtn">Cancel</button>
+            <button type="submit" class="btn-primary">Send Feedback</button>
+          </div>
+          <div id="feedbackStatus" class="feedback-status"></div>
+        </form>
+      </div>
+      <div class="feedback-modal-backdrop" id="feedbackBackdrop"></div>
+    </div>
+
+    <!-- Local Libraries (bundled for offline use) -->
+    <script src="../libs/pdf-lib.min.js"></script>
+    <script src="../libs/jspdf.umd.min.js"></script>
+    <script src="../libs/pdf.min.js"></script>
+    <script src="../libs/jszip.min.js"></script>
+    <script src="../libs/Sortable.min.js"></script>
+
+    <script src="../app.js" defer></script>
+    <script src="../tools/pdf-tools.js" defer></script>
+    <script src="../tools/pdf-convert.js" defer></script>
+    <script src="../tools/pdf-organize.js" defer></script>
+    <script src="../tools/image-tools.js" defer></script>
+    <script src="../tools/data-tools.js" defer></script>
+    <script src="../tools/docx-tools.js" defer></script>
+    <script src="../tools/excel-tools.js" defer></script>
+    <script src="../tools/media-tools.js" defer></script>
+    <script src="../tools/pptx-tools.js" defer></script>
+    <script src="../tools/video-download.js" defer></script>
+    <script src="../tools/utility-tools.js" defer></script>
+    <script src="../tools/text-tools.js" defer></script>
+    <script src="../tools/crop-tool.js" defer></script>
+    <script src="../tools/color-tool.js" defer></script>
+    <script src="../tools/multiview-tool.js" defer></script>
+  </body>
+</html>

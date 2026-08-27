@@ -11,3 +11,15 @@ ruff_cache/
 
 # context-mem
 .context-mem/
+
+# Dependencies & Build
+node_modules/
+dist/
+dist-electron/
+.vscode/
+
+# Test files
+test.csv
+test.png
+test1.pdf
+test2.pdf

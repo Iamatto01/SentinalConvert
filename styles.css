@@ -385,8 +385,15 @@ body {
   .site-title { font-size: 1.3rem; }
   .tool-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
   .tool-card { padding: 0.85rem; }
+  .tool-topbar { flex-wrap: wrap; gap: 0.5rem; }
+  .tool-heading { font-size: 1.1rem; }
+  .opts-panel { flex-direction: column; align-items: stretch; }
+  .action-row { flex-direction: column; }
+  .btn-action { width: 100%; text-align: center; }
   .ad-slot { margin: 1rem 0; max-height: 120px; padding: 0.35rem 0.5rem 0.5rem; }
   .ad-slot .adsbygoogle { max-height: 96px; }
+  .color-preview-bar { flex-direction: column; align-items: flex-start; }
+  .color-values { width: 100%; }
 }
 
 /* ── Organize PDF Grid ── */
@@ -417,6 +424,26 @@ body {
 .input-field:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
 .input-hint { display: block; margin-top: 0.3rem; font-size: 0.72rem; color: var(--muted); line-height: 1.5; }
 
+/* ── Tool spacing & layout ── */
+.tool-view > #toolBody { display: flex; flex-direction: column; gap: 1rem; }
+.opt-select:focus-visible, .opt-input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+/* ── Better tool card grid ── */
+.tool-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+.tool-card { transition: all 0.2s ease; }
+.tool-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ── Improved action row ── */
+.action-row { gap: 0.8rem; }
+.btn-action:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ── Select & option styling ── */
+.opt-select, .opt-input { min-width: 60px; }
+.opt-select option { background: #1a1b23; color: var(--text); }
+
+/* ── Drop zone icon ── */
+.dz-icon { font-size: 2.5rem; }
+
 /* ── Image Crop Tool ── */
 .crop-container { position: relative; margin-top: 1rem; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--surface); display: flex; align-items: center; justify-content: center; }
 .crop-canvas { max-width: 100%; max-height: 500px; display: block; }
@@ -435,4 +462,950 @@ body {
 .site-footer a { color: var(--accent); text-decoration: none; }
 .site-footer a:hover { text-decoration: underline; }
 .footer-links { display: flex; justify-content: center; gap: 1rem; margin-top: 0.5rem; flex-wrap: wrap; }
+
+/* ═══════════════════════════════════════════════════════
+   Multi View (Device Tester) & Realistic Mockups
+   ═══════════════════════════════════════════════════════ */
+
+/* Expand main container when Multi View is open */
+#app:has(.tool-view-multiview) {
+  width: min(1560px, calc(100% - 2rem));
+}
+
+.tool-view-multiview {
+  width: 100%;
+}
+
+.mv-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+/* ── Top URL & Preset Bar ── */
+.mv-topbar {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+
+.mv-url-box {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.4rem 0.8rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.mv-url-box:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.mv-url-icon {
+  font-size: 1.15rem;
+  opacity: 0.8;
+}
+
+.mv-url-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.95rem;
+  font-family: 'Inter', system-ui, sans-serif;
+  outline: none;
+}
+
+.mv-url-input::placeholder {
+  color: var(--muted);
+}
+
+.mv-btn-go {
+  background: linear-gradient(135deg, var(--accent), #8b5cf6);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-xs);
+  padding: 0.45rem 1.1rem;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: transform 0.15s, opacity 0.15s;
+}
+
+.mv-btn-go:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.mv-btn-icon {
+  background: var(--surface-hover);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  padding: 0.45rem 0.8rem;
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.mv-btn-icon:hover {
+  background: rgba(255,255,255,0.14);
+}
+
+/* Quick Presets Bar */
+.mv-presets-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.mv-presets-label {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.mv-preset-chips {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.mv-preset-chip {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 20px;
+  padding: 0.22rem 0.65rem;
+  font: inherit;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.mv-preset-chip:hover {
+  color: var(--text);
+  border-color: var(--accent);
+  background: rgba(108,99,255,0.12);
+}
+
+/* ── Main Toolbar ── */
+.mv-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.5rem 0;
+}
+
+.mv-cat-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.mv-tab {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: var(--radius-sm);
+  padding: 0.45rem 0.85rem;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.mv-tab:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+
+.mv-tab.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 4px 14px var(--accent-glow);
+}
+
+.mv-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.mv-action-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: var(--radius-sm);
+  padding: 0.45rem 0.85rem;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.mv-action-btn:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-hover);
+}
+
+.mv-action-btn.active {
+  border-color: var(--emerald);
+  color: #34d399;
+  background: rgba(16,185,129,0.1);
+}
+
+.mv-btn-popup-all {
+  background: linear-gradient(135deg, #06b6d4, #3b82f6);
+  color: #fff;
+  border: none;
+  font-weight: 700;
+}
+
+.mv-btn-popup-all:hover {
+  opacity: 0.92;
+  box-shadow: 0 4px 16px rgba(6,182,212,0.3);
+}
+
+/* Zoom Group */
+.mv-zoom-group {
+  display: flex;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.2rem 0.4rem;
+  gap: 0.3rem;
+}
+
+.mv-zoom-label {
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-weight: 600;
+  margin-left: 0.2rem;
+}
+
+.mv-zoom-value {
+  font-size: 0.78rem;
+  font-weight: 700;
+  min-width: 36px;
+  text-align: center;
+  font-family: monospace;
+}
+
+.mv-zoom-btn, .mv-zoom-reset {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: var(--radius-xs);
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.mv-zoom-reset {
+  width: auto;
+  padding: 0 0.4rem;
+  font-size: 0.72rem;
+}
+
+.mv-zoom-btn:hover, .mv-zoom-reset:hover {
+  background: var(--surface-hover);
+}
+
+/* ── Device Picker Drawer & Cards Grid ── */
+.mv-picker-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+}
+
+.mv-picker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.mv-picker-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.mv-picker-quick {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.mv-link-btn {
+  background: none;
+  border: none;
+  color: var(--cyan);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+}
+
+.mv-link-btn:hover {
+  text-decoration: underline;
+}
+
+.mv-device-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 0.65rem;
+}
+
+.mv-device-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  transition: all 0.15s ease;
+}
+
+.mv-device-card:hover {
+  border-color: var(--border-hover);
+  background: var(--surface-hover);
+  transform: translateY(-1px);
+}
+
+.mv-device-card.selected {
+  border-color: rgba(108,99,255,0.4);
+  background: rgba(108,99,255,0.06);
+}
+
+.mv-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.4rem;
+}
+
+.mv-card-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  overflow: hidden;
+}
+
+.mv-card-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.mv-card-name {
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mv-card-badge {
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
+  border-radius: 10px;
+  background: rgba(6,182,212,0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(6,182,212,0.3);
+  white-space: nowrap;
+}
+
+.mv-card-specs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-family: monospace;
+}
+
+.mv-card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.2rem;
+  padding-top: 0.45rem;
+  border-top: 1px solid var(--border);
+}
+
+.mv-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.74rem;
+  color: var(--text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.mv-card-check {
+  accent-color: var(--accent);
+  width: 14px;
+  height: 14px;
+}
+
+.mv-btn-popup-single {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: var(--radius-xs);
+  padding: 0.25rem 0.55rem;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.mv-btn-popup-single:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* ── Pro-Tip Notice Bar ── */
+.mv-notice-bar {
+  background: rgba(108,99,255,0.06);
+  border: 1px solid rgba(108,99,255,0.2);
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.9rem;
+}
+
+.mv-notice-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: #c4c1f7;
+}
+
+.mv-notice-content code {
+  background: rgba(0,0,0,0.3);
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  font-family: monospace;
+  color: #93c5fd;
+}
+
+/* ── Multi-View In-App Live Canvas ── */
+.mv-canvas-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: 1.5rem 0;
+}
+
+.mv-canvas-grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2.5rem;
+  width: 100%;
+}
+
+.mv-empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--surface);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 600px;
+}
+
+.mv-empty-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.mv-empty-state h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.mv-empty-state p {
+  color: var(--muted);
+  font-size: 0.88rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Individual Frame Card in Canvas ── */
+.mv-frame-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.mv-frame-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 0.8rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.4rem 0.75rem;
+}
+
+.mv-frame-title {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+}
+
+.mv-frame-icon {
+  font-size: 1rem;
+}
+
+.mv-frame-dim {
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-family: monospace;
+  background: rgba(255,255,255,0.06);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+}
+
+.mv-pill-landscape {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.1rem 0.35rem;
+  background: rgba(245,158,11,0.15);
+  color: #fbbf24;
+  border-radius: 4px;
+}
+
+.mv-frame-ctrls {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.mv-frame-ctrl-btn {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: var(--radius-xs);
+  padding: 0.2rem 0.45rem;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.mv-frame-ctrl-btn:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-hover);
+}
+
+.mv-ctrl-popup:hover {
+  background: var(--cyan);
+  border-color: var(--cyan);
+  color: #000;
+}
+
+.mv-ctrl-remove:hover {
+  background: var(--err);
+  border-color: var(--err);
+  color: #fff;
+}
+
+/* ── Hardware Device Mockups & Skins ── */
+.mv-device-mockup {
+  position: relative;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: top center;
+  transform: scale(var(--zoom, 0.65));
+  margin-bottom: calc(-1 * (1 - var(--zoom, 0.65)) * 100%);
+  display: inline-block;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.1);
+}
+
+/* Screen Box containing iframe */
+.mv-screen-box {
+  position: relative;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
+}
+
+.mv-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  background: #fff;
+}
+
+/* 1. iOS Dynamic Island Skin (iPhone 17 Pro Max / 16 Pro) */
+.skin-ios-island {
+  border-radius: 46px;
+  padding: 13px;
+  background: #1e1e24;
+  border: 4px solid #2e2f38;
+  box-shadow: 0 0 0 2px #101014, 0 20px 50px rgba(0,0,0,0.6);
+}
+
+.skin-ios-island .mv-screen-box {
+  border-radius: 36px;
+}
+
+.mv-dynamic-island {
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 96px;
+  height: 24px;
+  background: #000;
+  border-radius: 20px;
+  z-index: 10;
+  pointer-events: none;
+  box-shadow: 0 0 2px rgba(255,255,255,0.1);
+}
+
+.skin-ios-island.is-landscape .mv-dynamic-island {
+  top: 50%;
+  left: 22px;
+  transform: translateY(-50%) rotate(90deg);
+}
+
+/* 2. Android Punch-Hole Skin (Samsung S25 Ultra, Poco F8 Pro) */
+.skin-android-hole {
+  border-radius: 32px;
+  padding: 10px;
+  background: #181920;
+  border: 3px solid #323544;
+  box-shadow: 0 0 0 2px #0c0d12, 0 20px 50px rgba(0,0,0,0.6);
+}
+
+.skin-android-hole .mv-screen-box {
+  border-radius: 24px;
+}
+
+.mv-camera-hole {
+  position: absolute;
+  top: 17px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  background: #060608;
+  border: 1.5px solid #1c1d24;
+  border-radius: 50%;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.skin-android-hole.is-landscape .mv-camera-hole {
+  top: 50%;
+  left: 17px;
+  transform: translateY(-50%);
+}
+
+/* 3. iPad / Tablet Skin */
+.skin-tablet-ios, .skin-tablet-android, .skin-foldable {
+  border-radius: 28px;
+  padding: 16px;
+  background: #1c1d22;
+  border: 3px solid #2e303d;
+}
+
+.skin-tablet-ios .mv-screen-box, .skin-tablet-android .mv-screen-box, .skin-foldable .mv-screen-box {
+  border-radius: 16px;
+}
+
+/* 4. MacBook Pro / Laptop Skin */
+.skin-laptop-mac {
+  border-radius: 16px 16px 0 0;
+  padding: 14px 14px 0 14px;
+  background: #121318;
+  border: 3px solid #282a36;
+  border-bottom: none;
+}
+
+.skin-laptop-mac .mv-screen-box {
+  border-radius: 8px 8px 0 0;
+}
+
+.mv-mac-notch {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 16px;
+  background: #000;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.mv-laptop-base {
+  width: calc(100% + 40px);
+  height: 16px;
+  margin-left: -20px;
+  background: linear-gradient(to bottom, #2b2d3a, #1a1b24);
+  border-radius: 0 0 12px 12px;
+  border: 1px solid #3c3e4e;
+  border-top: none;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+  position: relative;
+}
+
+.mv-laptop-base::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 4px;
+  background: #121318;
+  border-radius: 0 0 4px 4px;
+}
+
+/* 5. Desktop Monitor / Standard Window */
+.skin-monitor, .skin-laptop, .skin-window {
+  border-radius: 10px;
+  padding: 8px;
+  background: #171821;
+  border: 2px solid #2a2c3a;
+}
+
+.skin-monitor .mv-screen-box, .skin-laptop .mv-screen-box, .skin-window .mv-screen-box {
+  border-radius: 4px;
+}
+
+/* 6. Smartwatch Skins (Apple Watch Ultra & Round Galaxy/Pixel) */
+.skin-watch-apple-ultra {
+  border-radius: 40px;
+  padding: 16px;
+  background: #d89664; /* Titanium orange/gold edge */
+  border: 4px solid #b87b4b;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+}
+
+.skin-watch-apple-ultra .mv-screen-box {
+  border-radius: 28px;
+}
+
+.skin-watch-apple {
+  border-radius: 36px;
+  padding: 14px;
+  background: #1b1c22;
+  border: 3px solid #363847;
+}
+
+.skin-watch-apple .mv-screen-box {
+  border-radius: 24px;
+}
+
+.skin-watch-round {
+  border-radius: 50%;
+  padding: 14px;
+  background: #15161c;
+  border: 4px solid #2d2f3d;
+}
+
+.skin-watch-round .mv-screen-box {
+  border-radius: 50%;
+}
+
+.mv-watch-crown {
+  position: absolute;
+  right: -8px;
+  top: 35%;
+  width: 6px;
+  height: 24px;
+  background: #707386;
+  border-radius: 3px;
+}
+
+/* 7. No skin mode */
+.skin-none {
+  border-radius: var(--radius-sm);
+  padding: 0;
+  background: none;
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.skin-none .mv-screen-box {
+  border-radius: var(--radius-sm);
+}
+
+/* ── Modals (QR Code & Custom Size) ── */
+.mv-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.mv-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mv-modal-dialog {
+  position: relative;
+  z-index: 2;
+  background: #14151f;
+  border: 1px solid var(--border-hover);
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 440px;
+  padding: 1.5rem;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+  animation: fadeSlideUp 0.2s ease both;
+}
+
+.mv-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.mv-modal-header h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.mv-modal-close {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.mv-modal-close:hover {
+  color: var(--text);
+}
+
+.mv-modal-desc {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 1rem;
+  line-height: 1.45;
+}
+
+.mv-qr-box {
+  padding: 1rem;
+  background: #fff;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+
+.mv-qr-url-text {
+  font-size: 0.75rem;
+  font-family: monospace;
+  color: var(--cyan);
+  text-align: center;
+  word-break: break-all;
+  margin-bottom: 0.75rem;
+}
+
+.mv-modal-sub {
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* Custom form in modal */
+.mv-form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.9rem;
+}
+
+.mv-form-row label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.mv-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.mv-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+}
 

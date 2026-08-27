@@ -258,16 +258,24 @@ async function loadPptxLibrary() {
 async function loadLibrary(src, globalName) {
   if (window[globalName]) return Promise.resolve();
 
+  const existing = document.querySelector(`script[src="${src}"]`);
+  if (existing?.dataset.loadedLib === "true") return Promise.resolve();
+  if (existing) existing.remove();
+
   return new Promise((resolve, reject) => {
     const script = document.createElement('script');
     script.src = src;
     script.onload = () => {
-      setTimeout(() => {
-        if (!window[globalName]) reject(new Error(`${globalName} not available after loading`));
-        else resolve();
-      }, 100);
+      script.dataset.loadedLib = "true";
+      if (!window[globalName]) {
+        script.remove();
+        reject(new Error(`${globalName} not available after loading`));
+      } else resolve();
     };
-    script.onerror = () => reject(new Error(`Failed to load ${src}`));
+    script.onerror = () => {
+      script.remove();
+      reject(new Error(`Failed to load ${src}`));
+    };
     document.head.appendChild(script);
   });
 }
