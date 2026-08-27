@@ -470,20 +470,25 @@
         font-size: 1rem;
         outline: none;
       }
-      .mv-btn-go {
-        background: linear-gradient(135deg, #6c63ff, #06b6d4);
-        color: #fff;
-        border: none;
-        border-radius: 10px;
-        padding: 0.55rem 1.4rem;
-        font: inherit;
-        font-weight: 700;
-        font-size: 0.9rem;
-        cursor: pointer;
-        transition: all 0.15s ease;
-        box-shadow: 0 4px 18px rgba(108, 99, 255, 0.4);
+      /* URL input hint */
+      .mv-url-hint {
+        font-size: 0.72rem;
+        color: #64748b;
+        font-weight: 500;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
       }
-      .mv-btn-go:hover { opacity: 0.92; transform: translateY(-1px); }
+      .mv-url-hint kbd {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 5px;
+        padding: 0.1rem 0.4rem;
+        font-size: 0.7rem;
+        font-family: monospace;
+        color: #94a3b8;
+      }
       .mv-btn-icon {
         background: rgba(255, 255, 255, 0.08);
         color: #e8e9f0;
@@ -735,6 +740,7 @@
         padding-top: 0.55rem;
         border-top: 1px solid rgba(255, 255, 255, 0.08);
       }
+      /* Prominent Tick Checkbox */
       .mv-checkbox-label {
         display: flex;
         align-items: center;
@@ -744,7 +750,40 @@
         cursor: pointer;
         user-select: none;
       }
-      .mv-card-check { accent-color: #6c63ff; width: 16px; height: 16px; }
+      .mv-card-check {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.25);
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.05);
+        cursor: pointer;
+        position: relative;
+        transition: all 0.15s ease;
+        flex-shrink: 0;
+      }
+      .mv-card-check:checked {
+        background: linear-gradient(135deg, #6c63ff, #8b5cf6);
+        border-color: #6c63ff;
+        box-shadow: 0 2px 8px rgba(108, 99, 255, 0.45);
+      }
+      .mv-card-check:checked::after {
+        content: "✓";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #fff;
+        font-size: 13px;
+        font-weight: 900;
+        line-height: 1;
+      }
+      .mv-card-check:hover {
+        border-color: rgba(108, 99, 255, 0.6);
+        background: rgba(108, 99, 255, 0.15);
+      }
       .mv-btn-popup-single {
         background: rgba(6, 182, 212, 0.15);
         border: 1px solid rgba(6, 182, 212, 0.35);
@@ -1297,8 +1336,8 @@
             
             <div class="mv-url-box">
               <span class="mv-url-icon">🌐</span>
-              <input type="text" id="mvUrlInput" class="mv-url-input" placeholder="Enter website link, e.g., http://localhost:3000 or https://..." value="${esc(currentURL)}" />
-              <button class="mv-btn-go" id="mvBtnGo" title="Load URL">Go →</button>
+              <input type="text" id="mvUrlInput" class="mv-url-input" placeholder="Paste a URL and press Enter to preview on all ticked devices..." value="${esc(currentURL)}" />
+              <span class="mv-url-hint"><kbd>Enter ↵</kbd> to load</span>
               <button class="mv-btn-icon" id="mvBtnQR" title="Show QR Code for Mobile Testing">📱 QR Share</button>
             </div>
 
@@ -1474,7 +1513,6 @@
 
       /* ── DOM References ── */
       const urlInput = body.querySelector("#mvUrlInput");
-      const btnGo = body.querySelector("#mvBtnGo");
       const btnQR = body.querySelector("#mvBtnQR");
       const catTabs = body.querySelectorAll(".mv-tab");
       const deviceCardsGrid = body.querySelector("#mvDeviceCardsGrid");
@@ -1773,9 +1811,11 @@
         renderCanvasFrames();
       }
 
-      btnGo.addEventListener("click", applyURL);
       urlInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") applyURL();
+        if (e.key === "Enter") {
+          e.preventDefault();
+          applyURL();
+        }
       });
 
       // Quick Preset chips
@@ -1937,10 +1977,13 @@
         openDevicePopup(customDev, currentURL);
       });
 
-      // Initial Render
+      // Initial Render — show device cards but canvas shows empty state until user presses Enter
       renderDeviceCards();
       renderCanvasFrames();
       updateSelectedCount();
+
+      // Auto-focus the URL input for quick paste & Enter workflow
+      setTimeout(() => urlInput.focus(), 100);
     }
   });
 })();
