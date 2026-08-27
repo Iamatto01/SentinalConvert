@@ -1,7 +1,8 @@
 /* ═══════════════════════════════════════════════════════
    SentinelConvert — Multi View (Responsive Multi-Device Layout Tester)
-   Test projects & websites across smartphones, tablets, desktops, & smartwatches
-   with instant exact-dimension popups and live side-by-side in-app mockups.
+   Hyper-realistic hardware phone mockups (iPhone 17 Pro Max, Samsung S25 Ultra,
+   Poco F8 Pro, MacBooks, iPad Pro, Smartwatches) with live multi-screen matrix,
+   synced controls, and multi-window popup launcher.
    ═══════════════════════════════════════════════════════ */
 
 (() => {
@@ -50,7 +51,7 @@
       os: "HyperOS 2",
       frameType: "android-hole",
       icon: "📱",
-      badge: "Popular Flagship",
+      badge: "Flagship Killer",
       defaultActive: true
     },
     {
@@ -216,12 +217,11 @@
       screen: "24-27\" Full HD",
       os: "Standard Desktop",
       frameType: "monitor",
-      icon: "🖥️",
-      defaultActive: false
+      icon: "🖥️"
     },
     {
       id: "macbook-air-13",
-      name: "MacBook Air 13\" / 15\"",
+      name: "MacBook Air 13\"",
       category: "desktop",
       catName: "Desktops & Laptops",
       width: 1280,
@@ -329,6 +329,40 @@
     }
   ];
 
+  /* ── Multi-Screen Preset Combos ── */
+  const MULTI_SCREEN_COMBOS = [
+    {
+      id: "combo-flagships",
+      label: "🔥 Flagship Duel (3 Phones)",
+      desc: "iPhone 17 Pro Max + Samsung Galaxy S25 Ultra + Poco F8 Pro",
+      deviceIds: ["iphone-17-pm", "samsung-s25-ultra", "poco-f8-pro"]
+    },
+    {
+      id: "combo-suite",
+      label: "💻 Full Ecosystem (4 Screens)",
+      desc: "iPhone 17 Pro Max + iPad Pro 13\" + MacBook Pro 16\" + Apple Watch Ultra 2",
+      deviceIds: ["iphone-17-pm", "ipad-pro-13", "macbook-pro-16", "apple-watch-ultra-2"]
+    },
+    {
+      id: "combo-mobile-all",
+      label: "📱 Mobile Arena (6 Phones)",
+      desc: "iPhone 17 PM, S25 Ultra, Poco F8, Pixel 9 Pro, Nothing Phone 2, iPhone 16 Pro",
+      deviceIds: ["iphone-17-pm", "samsung-s25-ultra", "poco-f8-pro", "pixel-9-pro-xl", "nothing-phone-2", "iphone-16-pro"]
+    },
+    {
+      id: "combo-tablets",
+      label: "📟 Tablets & Foldables (3 Screens)",
+      desc: "iPad Pro 13\" + Galaxy Tab S10 Ultra + Galaxy Z Fold 6",
+      deviceIds: ["ipad-pro-13", "galaxy-tab-s10-ultra", "galaxy-z-fold-6-open"]
+    },
+    {
+      id: "combo-wearables",
+      label: "⌚ Smartwatch Duo (2 Watches)",
+      desc: "Apple Watch Ultra 2 + Samsung Galaxy Watch 7",
+      deviceIds: ["apple-watch-ultra-2", "galaxy-watch-7"]
+    }
+  ];
+
   /* ── Preset Sample / Quick Local URLs ── */
   const QUICK_URL_PRESETS = [
     { label: "⚡ Current Project", url: window.location.href.split("#")[0] },
@@ -345,15 +379,15 @@
     return `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(text)}&margin=10`;
   }
 
-  /* ── Inject Self-Contained Styles (Guarantees zero unstyled flicker even if styles.css is cached) ── */
+  /* ── Inject Self-Contained Styles ── */
   function injectMultiViewStyles() {
     if (document.getElementById("mv-inline-styles")) return;
     const styleEl = document.createElement("style");
     styleEl.id = "mv-inline-styles";
     styleEl.textContent = `
       #app:has(.tool-view-multiview), .app-wide-container {
-        width: min(1580px, calc(100% - 2rem)) !important;
-        max-width: 1580px !important;
+        width: min(1700px, calc(100% - 2rem)) !important;
+        max-width: 1700px !important;
         margin: 0 auto !important;
       }
       .tool-view-multiview {
@@ -363,91 +397,110 @@
       .mv-container {
         display: flex;
         flex-direction: column;
-        gap: 1.25rem;
+        gap: 1.35rem;
         width: 100%;
       }
       /* Topbar */
       .mv-topbar {
-        background: rgba(20, 22, 34, 0.85);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 16px;
-        padding: 1.25rem;
+        background: linear-gradient(135deg, rgba(22, 24, 38, 0.92) 0%, rgba(14, 15, 24, 0.95) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 20px;
+        padding: 1.35rem 1.5rem;
         display: flex;
         flex-direction: column;
-        gap: 0.9rem;
-        backdrop-filter: blur(16px);
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+        gap: 1rem;
+        backdrop-filter: blur(20px);
+        box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      }
+      .mv-hero-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.6rem;
       }
       .mv-hero-badge {
         display: inline-flex;
         align-items: center;
-        gap: 0.4rem;
-        font-size: 0.75rem;
-        font-weight: 700;
+        gap: 0.5rem;
+        font-size: 0.78rem;
+        font-weight: 800;
         letter-spacing: 0.08em;
         text-transform: uppercase;
         color: #38bdf8;
         background: rgba(56, 189, 248, 0.12);
-        padding: 0.25rem 0.65rem;
+        padding: 0.35rem 0.8rem;
         border-radius: 20px;
-        border: 1px solid rgba(56, 189, 248, 0.25);
-        width: fit-content;
+        border: 1px solid rgba(56, 189, 248, 0.3);
+      }
+      .mv-hero-stats {
+        font-size: 0.78rem;
+        color: #94a3b8;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+      .mv-stat-pill {
+        background: rgba(255, 255, 255, 0.06);
+        padding: 0.2rem 0.6rem;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
       }
       .mv-url-box {
         display: flex;
         align-items: center;
-        gap: 0.6rem;
-        background: rgba(10, 11, 18, 0.8);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 12px;
-        padding: 0.5rem 0.9rem;
+        gap: 0.75rem;
+        background: rgba(8, 9, 14, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 14px;
+        padding: 0.55rem 1rem;
         transition: all 0.2s ease;
       }
       .mv-url-box:focus-within {
         border-color: #6c63ff;
-        box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.35);
+        box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.35);
       }
-      .mv-url-icon { font-size: 1.2rem; }
+      .mv-url-icon { font-size: 1.3rem; }
       .mv-url-input {
         flex: 1;
         background: transparent;
         border: none;
         color: #fff;
         font: inherit;
-        font-size: 0.95rem;
+        font-size: 1rem;
         outline: none;
       }
       .mv-btn-go {
         background: linear-gradient(135deg, #6c63ff, #06b6d4);
         color: #fff;
         border: none;
-        border-radius: 8px;
-        padding: 0.5rem 1.25rem;
+        border-radius: 10px;
+        padding: 0.55rem 1.4rem;
         font: inherit;
         font-weight: 700;
-        font-size: 0.88rem;
+        font-size: 0.9rem;
         cursor: pointer;
         transition: all 0.15s ease;
-        box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+        box-shadow: 0 4px 18px rgba(108, 99, 255, 0.4);
       }
       .mv-btn-go:hover { opacity: 0.92; transform: translateY(-1px); }
       .mv-btn-icon {
         background: rgba(255, 255, 255, 0.08);
         color: #e8e9f0;
         border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 8px;
-        padding: 0.5rem 0.85rem;
+        border-radius: 10px;
+        padding: 0.55rem 0.95rem;
         font: inherit;
         font-weight: 600;
-        font-size: 0.82rem;
+        font-size: 0.84rem;
         cursor: pointer;
         transition: background 0.15s;
       }
-      .mv-btn-icon:hover { background: rgba(255, 255, 255, 0.15); }
+      .mv-btn-icon:hover { background: rgba(255, 255, 255, 0.16); }
       .mv-presets-bar {
         display: flex;
         align-items: center;
-        gap: 0.6rem;
+        gap: 0.65rem;
         flex-wrap: wrap;
       }
       .mv-presets-label {
@@ -460,10 +513,10 @@
       .mv-preset-chips { display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap; }
       .mv-preset-chip {
         background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        color: #9b9fb5;
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        color: #94a3b8;
         border-radius: 20px;
-        padding: 0.25rem 0.7rem;
+        padding: 0.28rem 0.75rem;
         font: inherit;
         font-size: 0.76rem;
         cursor: pointer;
@@ -471,8 +524,55 @@
       }
       .mv-preset-chip:hover {
         color: #fff;
-        border-color: #6c63ff;
-        background: rgba(108, 99, 255, 0.15);
+        border-color: #38bdf8;
+        background: rgba(56, 189, 248, 0.15);
+      }
+      /* Quick Combos Section */
+      .mv-combos-panel {
+        background: rgba(20, 22, 34, 0.75);
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        border-radius: 16px;
+        padding: 1rem 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.65rem;
+      }
+      .mv-combos-title {
+        font-size: 0.76rem;
+        font-weight: 800;
+        color: #7b7f99;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+      .mv-combos-list {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+      }
+      .mv-combo-btn {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: #e2e8f0;
+        border-radius: 12px;
+        padding: 0.5rem 0.95rem;
+        font: inherit;
+        font-size: 0.82rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.18s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+      }
+      .mv-combo-btn:hover {
+        background: linear-gradient(135deg, rgba(108, 99, 255, 0.25) 0%, rgba(6, 182, 212, 0.25) 100%);
+        border-color: #38bdf8;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(6, 182, 212, 0.25);
       }
       /* Toolbar */
       .mv-toolbar {
@@ -481,177 +581,178 @@
         align-items: center;
         gap: 0.8rem;
         flex-wrap: wrap;
-        padding: 0.3rem 0;
+        padding: 0.2rem 0;
       }
       .mv-cat-tabs { display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
       .mv-tab {
         background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.09);
-        color: #9b9fb5;
-        border-radius: 10px;
-        padding: 0.5rem 0.9rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #94a3b8;
+        border-radius: 12px;
+        padding: 0.55rem 1rem;
+        font: inherit;
+        font-size: 0.84rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+      .mv-tab:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
+      .mv-tab.active {
+        background: linear-gradient(135deg, #6c63ff, #8b5cf6);
+        border-color: #6c63ff;
+        color: #fff;
+        box-shadow: 0 4px 18px rgba(108, 99, 255, 0.4);
+      }
+      .mv-actions-group { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+      .mv-action-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: #e8e9f0;
+        border-radius: 12px;
+        padding: 0.55rem 1rem;
         font: inherit;
         font-size: 0.82rem;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.15s ease;
       }
-      .mv-tab:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
-      .mv-tab.active {
-        background: #6c63ff;
-        border-color: #6c63ff;
-        color: #fff;
-        box-shadow: 0 4px 16px rgba(108, 99, 255, 0.35);
-      }
-      .mv-actions-group { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
-      .mv-action-btn {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        color: #e8e9f0;
-        border-radius: 10px;
-        padding: 0.5rem 0.9rem;
-        font: inherit;
-        font-size: 0.8rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.15s ease;
-      }
-      .mv-action-btn:hover { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.2); }
+      .mv-action-btn:hover { background: rgba(255, 255, 255, 0.14); border-color: rgba(255, 255, 255, 0.25); }
       .mv-btn-popup-all {
         background: linear-gradient(135deg, #06b6d4, #3b82f6) !important;
         color: #fff !important;
         border: none !important;
         font-weight: 700 !important;
-        box-shadow: 0 4px 16px rgba(6, 182, 212, 0.3);
+        box-shadow: 0 4px 18px rgba(6, 182, 212, 0.35);
       }
+      .mv-btn-popup-all:hover { opacity: 0.92; transform: translateY(-1px); }
       .mv-zoom-group {
         display: flex;
         align-items: center;
         background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-        padding: 0.25rem 0.5rem;
-        gap: 0.35rem;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 12px;
+        padding: 0.3rem 0.6rem;
+        gap: 0.4rem;
       }
-      .mv-zoom-label { font-size: 0.72rem; color: #7b7f99; font-weight: 600; }
-      .mv-zoom-value { font-size: 0.8rem; font-weight: 700; min-width: 38px; text-align: center; font-family: monospace; }
+      .mv-zoom-label { font-size: 0.74rem; color: #7b7f99; font-weight: 600; }
+      .mv-zoom-value { font-size: 0.82rem; font-weight: 700; min-width: 42px; text-align: center; font-family: monospace; }
       .mv-zoom-btn, .mv-zoom-reset {
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.09);
+        border: 1px solid rgba(255, 255, 255, 0.12);
         color: #fff;
-        border-radius: 6px;
-        padding: 0.2rem 0.5rem;
+        border-radius: 8px;
+        padding: 0.25rem 0.55rem;
         font-weight: bold;
-        font-size: 0.8rem;
+        font-size: 0.84rem;
         cursor: pointer;
       }
       /* Picker Panel */
       .mv-picker-panel {
-        background: rgba(20, 22, 34, 0.7);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 16px;
-        padding: 1.1rem;
-        backdrop-filter: blur(12px);
+        background: rgba(20, 22, 34, 0.75);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 18px;
+        padding: 1.2rem;
+        backdrop-filter: blur(14px);
       }
       .mv-picker-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 0.9rem;
+        margin-bottom: 1rem;
         flex-wrap: wrap;
         gap: 0.5rem;
       }
       .mv-picker-title {
         font-size: 0.8rem;
-        font-weight: 700;
+        font-weight: 800;
         color: #7b7f99;
         text-transform: uppercase;
-        letter-spacing: 0.06em;
+        letter-spacing: 0.08em;
       }
-      .mv-picker-quick { display: flex; align-items: center; gap: 0.5rem; font-size: 0.76rem; color: #7b7f99; }
+      .mv-picker-quick { display: flex; align-items: center; gap: 0.6rem; font-size: 0.78rem; color: #7b7f99; }
       .mv-link-btn {
         background: none;
         border: none;
         color: #38bdf8;
         font: inherit;
-        font-size: 0.76rem;
+        font-size: 0.78rem;
         font-weight: 600;
         cursor: pointer;
       }
       .mv-link-btn:hover { text-decoration: underline; }
       .mv-device-cards-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-        gap: 0.75rem;
+        grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+        gap: 0.85rem;
       }
       .mv-device-card {
         background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.07);
-        border-radius: 12px;
-        padding: 0.85rem;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 14px;
+        padding: 0.95rem;
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
-        transition: all 0.15s ease;
+        gap: 0.55rem;
+        transition: all 0.18s ease;
       }
       .mv-device-card:hover {
-        background: rgba(255, 255, 255, 0.06);
-        border-color: rgba(255, 255, 255, 0.16);
+        background: rgba(255, 255, 255, 0.07);
+        border-color: rgba(255, 255, 255, 0.2);
         transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
       }
       .mv-device-card.selected {
-        border-color: rgba(108, 99, 255, 0.5);
-        background: rgba(108, 99, 255, 0.08);
+        border-color: rgba(108, 99, 255, 0.6);
+        background: rgba(108, 99, 255, 0.1);
       }
       .mv-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.4rem; }
-      .mv-card-title-wrap { display: flex; align-items: center; gap: 0.4rem; overflow: hidden; }
-      .mv-card-icon { font-size: 1.2rem; flex-shrink: 0; }
-      .mv-card-name { font-size: 0.85rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #fff; }
+      .mv-card-title-wrap { display: flex; align-items: center; gap: 0.45rem; overflow: hidden; }
+      .mv-card-icon { font-size: 1.3rem; flex-shrink: 0; }
+      .mv-card-name { font-size: 0.88rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #fff; }
       .mv-card-badge {
-        font-size: 0.62rem;
+        font-size: 0.64rem;
         font-weight: 700;
-        padding: 0.15rem 0.45rem;
+        padding: 0.15rem 0.5rem;
         border-radius: 10px;
-        background: rgba(6, 182, 212, 0.15);
+        background: rgba(6, 182, 212, 0.18);
         color: #38bdf8;
-        border: 1px solid rgba(6, 182, 212, 0.3);
+        border: 1px solid rgba(6, 182, 212, 0.35);
         white-space: nowrap;
       }
       .mv-card-specs {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        font-size: 0.74rem;
-        color: #7b7f99;
+        font-size: 0.76rem;
+        color: #94a3b8;
         font-family: monospace;
       }
       .mv-card-actions {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-top: 0.2rem;
-        padding-top: 0.5rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.07);
+        margin-top: 0.25rem;
+        padding-top: 0.55rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
       }
       .mv-checkbox-label {
         display: flex;
         align-items: center;
-        gap: 0.4rem;
-        font-size: 0.76rem;
-        color: #e8e9f0;
+        gap: 0.45rem;
+        font-size: 0.78rem;
+        color: #e2e8f0;
         cursor: pointer;
         user-select: none;
       }
-      .mv-card-check { accent-color: #6c63ff; width: 15px; height: 15px; }
+      .mv-card-check { accent-color: #6c63ff; width: 16px; height: 16px; }
       .mv-btn-popup-single {
-        background: rgba(6, 182, 212, 0.12);
-        border: 1px solid rgba(6, 182, 212, 0.3);
+        background: rgba(6, 182, 212, 0.15);
+        border: 1px solid rgba(6, 182, 212, 0.35);
         color: #38bdf8;
-        border-radius: 6px;
-        padding: 0.3rem 0.65rem;
+        border-radius: 8px;
+        padding: 0.32rem 0.7rem;
         font: inherit;
-        font-size: 0.74rem;
+        font-size: 0.76rem;
         font-weight: 700;
         cursor: pointer;
         transition: all 0.15s ease;
@@ -660,19 +761,19 @@
         background: #06b6d4;
         border-color: #06b6d4;
         color: #000;
-        box-shadow: 0 4px 12px rgba(6, 182, 212, 0.4);
+        box-shadow: 0 4px 14px rgba(6, 182, 212, 0.45);
       }
       /* Notice Bar */
       .mv-notice-bar {
         background: rgba(108, 99, 255, 0.08);
         border: 1px solid rgba(108, 99, 255, 0.22);
-        border-radius: 12px;
-        padding: 0.75rem 1rem;
+        border-radius: 14px;
+        padding: 0.85rem 1.15rem;
       }
-      .mv-notice-content { display: flex; align-items: center; gap: 0.6rem; font-size: 0.82rem; color: #c4c1f7; }
+      .mv-notice-content { display: flex; align-items: center; gap: 0.65rem; font-size: 0.84rem; color: #c4c1f7; }
       .mv-notice-content code {
         background: rgba(0, 0, 0, 0.4);
-        padding: 0.1rem 0.4rem;
+        padding: 0.15rem 0.45rem;
         border-radius: 4px;
         font-family: monospace;
         color: #93c5fd;
@@ -682,34 +783,34 @@
         width: 100%;
         overflow-x: auto;
         overflow-y: visible;
-        padding: 1.5rem 0 3rem;
+        padding: 2rem 0 4rem;
       }
       .mv-canvas-grid {
         display: flex;
         flex-wrap: wrap;
         align-items: flex-start;
         justify-content: center;
-        gap: 3rem;
+        gap: 3.5rem;
         width: 100%;
       }
       .mv-empty-state {
         text-align: center;
-        padding: 4rem 2rem;
+        padding: 4.5rem 2rem;
         background: rgba(255, 255, 255, 0.03);
-        border: 2px dashed rgba(255, 255, 255, 0.1);
-        border-radius: 16px;
+        border: 2px dashed rgba(255, 255, 255, 0.12);
+        border-radius: 20px;
         width: 100%;
-        max-width: 600px;
+        max-width: 620px;
       }
-      .mv-empty-icon { font-size: 3rem; display: block; margin-bottom: 1rem; }
-      .mv-empty-state h3 { font-size: 1.25rem; margin-bottom: 0.5rem; color: #fff; }
-      .mv-empty-state p { color: #7b7f99; font-size: 0.88rem; margin-bottom: 1.5rem; }
+      .mv-empty-icon { font-size: 3.5rem; display: block; margin-bottom: 1rem; }
+      .mv-empty-state h3 { font-size: 1.35rem; margin-bottom: 0.5rem; color: #fff; }
+      .mv-empty-state p { color: #94a3b8; font-size: 0.92rem; margin-bottom: 1.5rem; }
       /* Frame Card */
       .mv-frame-card {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 0.75rem;
+        gap: 0.85rem;
       }
       .mv-frame-header {
         display: flex;
@@ -717,159 +818,152 @@
         justify-content: space-between;
         width: 100%;
         gap: 0.8rem;
-        background: rgba(20, 22, 34, 0.8);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-        padding: 0.45rem 0.8rem;
-        backdrop-filter: blur(8px);
+        background: rgba(20, 22, 34, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 12px;
+        padding: 0.5rem 0.9rem;
+        backdrop-filter: blur(10px);
       }
-      .mv-frame-title { display: flex; align-items: center; gap: 0.45rem; font-size: 0.82rem; color: #fff; }
+      .mv-frame-title { display: flex; align-items: center; gap: 0.5rem; font-size: 0.84rem; color: #fff; }
       .mv-frame-dim {
-        color: #7b7f99;
+        color: #94a3b8;
         font-size: 0.74rem;
         font-family: monospace;
-        background: rgba(255, 255, 255, 0.06);
-        padding: 0.1rem 0.4rem;
-        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.08);
+        padding: 0.15rem 0.45rem;
+        border-radius: 6px;
       }
       .mv-pill-landscape {
         font-size: 0.65rem;
         font-weight: 700;
-        padding: 0.1rem 0.35rem;
-        background: rgba(245, 158, 11, 0.15);
+        padding: 0.15rem 0.45rem;
+        background: rgba(245, 158, 11, 0.2);
         color: #fbbf24;
-        border-radius: 4px;
+        border-radius: 6px;
       }
-      .mv-frame-ctrls { display: flex; align-items: center; gap: 0.3rem; }
+      .mv-frame-ctrls { display: flex; align-items: center; gap: 0.35rem; }
       .mv-frame-ctrl-btn {
         background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.12);
         color: #e8e9f0;
-        border-radius: 6px;
-        padding: 0.22rem 0.5rem;
+        border-radius: 8px;
+        padding: 0.25rem 0.55rem;
         font: inherit;
-        font-size: 0.72rem;
+        font-size: 0.74rem;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.15s ease;
       }
-      .mv-frame-ctrl-btn:hover { background: rgba(255, 255, 255, 0.15); }
+      .mv-frame-ctrl-btn:hover { background: rgba(255, 255, 255, 0.18); }
       .mv-ctrl-popup:hover { background: #06b6d4; color: #000; border-color: #06b6d4; }
       .mv-ctrl-remove:hover { background: #f87171; color: #fff; border-color: #f87171; }
-      /* Device Mockups */
-      .mv-device-mockup {
+
+      /* ═══════════════════════════════════════════════════════
+         HYPER-REALISTIC PHONE CHASSIS & HARDWARE MOCKUPS
+         ═══════════════════════════════════════════════════════ */
+      .mv-phone-wrapper {
         position: relative;
-        transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        display: inline-block;
         transform-origin: top center;
         transform: scale(var(--zoom, 0.65));
         margin-bottom: calc(-1 * (1 - var(--zoom, 0.65)) * 100%);
-        display: inline-block;
-        box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.12);
       }
-      .mv-screen-box {
+
+      .mv-phone-chassis {
         position: relative;
-        background: #fff;
-        overflow: hidden;
+        background: linear-gradient(145deg, #2c2e3a 0%, #161720 45%, #2a2c38 100%);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 40px 100px rgba(0, 0, 0, 0.75), 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.3);
       }
-      .mv-iframe {
-        width: 100%;
-        height: 100%;
-        border: none;
-        display: block;
-        background: #fff;
+
+      /* Physical Hardware Buttons on Side */
+      .mv-hw-btn {
+        position: absolute;
+        background: linear-gradient(to bottom, #3f4252, #21232d);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        pointer-events: none;
       }
-      /* Skins */
+      .mv-btn-action { left: -5px; top: 110px; width: 5px; height: 28px; border-radius: 3px 0 0 3px; }
+      .mv-btn-vol-up { left: -5px; top: 155px; width: 5px; height: 52px; border-radius: 3px 0 0 3px; }
+      .mv-btn-vol-down { left: -5px; top: 220px; width: 5px; height: 52px; border-radius: 3px 0 0 3px; }
+      .mv-btn-power { right: -5px; top: 175px; width: 5px; height: 78px; border-radius: 0 3px 3px 0; }
+
+      /* Antenna Bands */
+      .mv-antenna { position: absolute; width: 5px; height: 3px; background: rgba(0,0,0,0.6); pointer-events: none; }
+      .mv-ant-tl { left: -1px; top: 75px; }
+      .mv-ant-tr { right: -1px; top: 75px; }
+      .mv-ant-bl { left: -1px; bottom: 75px; }
+      .mv-ant-br { right: -1px; bottom: 75px; }
+
+      /* 1. iPhone 17 Pro Max / 16 Pro (Titanium Curvature) */
       .skin-ios-island {
-        border-radius: 48px;
-        padding: 13px;
-        background: #1c1d24;
-        border: 4px solid #2e2f38;
-        box-shadow: 0 0 0 2px #0f0f13, 0 25px 60px rgba(0,0,0,0.6);
+        border-radius: 54px;
+        padding: 14px;
       }
-      .skin-ios-island .mv-screen-box { border-radius: 36px; }
-      .mv-dynamic-island {
-        position: absolute;
-        top: 22px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 96px;
-        height: 24px;
-        background: #000;
-        border-radius: 20px;
-        z-index: 10;
-        pointer-events: none;
-        box-shadow: 0 0 2px rgba(255,255,255,0.15);
+      .skin-ios-island .mv-screen-box {
+        border-radius: 42px;
       }
-      .skin-ios-island.is-landscape .mv-dynamic-island {
-        top: 50%;
-        left: 22px;
-        transform: translateY(-50%) rotate(90deg);
-      }
+
+      /* 2. Samsung S25 Ultra (Subtle Sharp Modern Corners) */
       .skin-android-hole {
-        border-radius: 34px;
-        padding: 11px;
-        background: #16171d;
-        border: 3px solid #333644;
-        box-shadow: 0 0 0 2px #0c0d12, 0 25px 60px rgba(0,0,0,0.6);
+        border-radius: 36px;
+        padding: 12px;
       }
-      .skin-android-hole .mv-screen-box { border-radius: 24px; }
-      .mv-camera-hole {
-        position: absolute;
-        top: 18px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 12px;
-        height: 12px;
-        background: #060608;
-        border: 1.5px solid #1f2028;
-        border-radius: 50%;
-        z-index: 10;
-        pointer-events: none;
+      .skin-android-hole .mv-screen-box {
+        border-radius: 26px;
       }
-      .skin-android-hole.is-landscape .mv-camera-hole {
-        top: 50%;
-        left: 18px;
-        transform: translateY(-50%);
-      }
+
+      /* 3. iPad / Tablets */
       .skin-tablet-ios, .skin-tablet-android, .skin-foldable {
-        border-radius: 28px;
-        padding: 16px;
-        background: #1a1b22;
-        border: 3px solid #2f3240;
+        border-radius: 32px;
+        padding: 18px;
       }
       .skin-tablet-ios .mv-screen-box, .skin-tablet-android .mv-screen-box, .skin-foldable .mv-screen-box {
-        border-radius: 16px;
+        border-radius: 18px;
       }
+
+      /* 4. MacBook Pro 16" */
       .skin-laptop-mac {
-        border-radius: 16px 16px 0 0;
+        border-radius: 18px 18px 0 0;
         padding: 14px 14px 0 14px;
         background: #121318;
-        border: 3px solid #282a36;
-        border-bottom: none;
       }
-      .skin-laptop-mac .mv-screen-box { border-radius: 8px 8px 0 0; }
+      .skin-laptop-mac .mv-screen-box { border-radius: 10px 10px 0 0; }
       .mv-mac-notch {
         position: absolute;
         top: 14px;
         left: 50%;
         transform: translateX(-50%);
-        width: 120px;
-        height: 16px;
+        width: 130px;
+        height: 18px;
         background: #000;
-        border-bottom-left-radius: 8px;
-        border-bottom-right-radius: 8px;
-        z-index: 10;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        z-index: 200;
         pointer-events: none;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      }
+      .mv-mac-cam {
+        position: absolute;
+        top: 4px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 8px;
+        height: 8px;
+        background: #111422;
+        border-radius: 50%;
+        border: 1px solid #282a3a;
       }
       .mv-laptop-base {
-        width: calc(100% + 40px);
-        height: 16px;
-        margin-left: -20px;
-        background: linear-gradient(to bottom, #2b2d3a, #1a1b24);
-        border-radius: 0 0 12px 12px;
+        width: calc(100% + 44px);
+        height: 18px;
+        margin-left: -22px;
+        background: linear-gradient(to bottom, #2d2f3d, #181922);
+        border-radius: 0 0 14px 14px;
         border: 1px solid #3c3e4e;
         border-top: none;
-        box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+        box-shadow: 0 16px 40px rgba(0,0,0,0.6);
         position: relative;
       }
       .mv-laptop-base::after {
@@ -878,59 +972,183 @@
         top: 0;
         left: 50%;
         transform: translateX(-50%);
-        width: 70px;
-        height: 4px;
-        background: #121318;
-        border-radius: 0 0 4px 4px;
+        width: 80px;
+        height: 5px;
+        background: #101117;
+        border-radius: 0 0 5px 5px;
       }
-      .skin-monitor, .skin-laptop, .skin-window {
-        border-radius: 10px;
-        padding: 8px;
-        background: #171821;
-        border: 2px solid #2a2c3a;
-      }
-      .skin-monitor .mv-screen-box, .skin-laptop .mv-screen-box, .skin-window .mv-screen-box {
-        border-radius: 4px;
-      }
+
+      /* 5. Apple Watch Ultra 2 (49mm Titanium Case) */
       .skin-watch-apple-ultra {
-        border-radius: 42px;
-        padding: 16px;
-        background: #d89664;
-        border: 4px solid #b87b4b;
-        box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+        border-radius: 46px;
+        padding: 18px;
+        background: linear-gradient(135deg, #d3874b 0%, #a46433 100%);
+        border: 4px solid #8c5225;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.7);
       }
-      .skin-watch-apple-ultra .mv-screen-box { border-radius: 28px; }
-      .skin-watch-apple {
-        border-radius: 36px;
-        padding: 14px;
-        background: #1b1c22;
-        border: 3px solid #363847;
-      }
-      .skin-watch-apple .mv-screen-box { border-radius: 24px; }
-      .skin-watch-round {
-        border-radius: 50%;
-        padding: 14px;
-        background: #15161c;
-        border: 4px solid #2d2f3d;
-      }
-      .skin-watch-round .mv-screen-box { border-radius: 50%; }
+      .skin-watch-apple-ultra .mv-screen-box { border-radius: 30px; }
       .mv-watch-crown {
         position: absolute;
-        right: -8px;
-        top: 35%;
-        width: 6px;
-        height: 24px;
-        background: #707386;
-        border-radius: 3px;
+        right: -10px;
+        top: 32%;
+        width: 8px;
+        height: 30px;
+        background: linear-gradient(to right, #808396, #4b4d5a);
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.5);
       }
-      .skin-none {
+
+      /* 6. Galaxy Watch 7 (Round AMOLED) */
+      .skin-watch-round {
+        border-radius: 50%;
+        padding: 16px;
+        background: #15161c;
+        border: 4px solid #313342;
+      }
+      .skin-watch-round .mv-screen-box { border-radius: 50%; }
+
+      /* Desktop monitor */
+      .skin-monitor, .skin-laptop, .skin-window {
         border-radius: 12px;
-        padding: 0;
-        background: none;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+        padding: 10px;
+        background: #171821;
+        border: 2px solid #2d2f3d;
       }
-      .skin-none .mv-screen-box { border-radius: 12px; }
+      .skin-monitor .mv-screen-box, .skin-laptop .mv-screen-box, .skin-window .mv-screen-box {
+        border-radius: 6px;
+      }
+
+      /* Screen Box containing iframe */
+      .mv-screen-box {
+        position: relative;
+        background: #fff;
+        overflow: hidden;
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+      }
+      .mv-iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
+        background: #fff;
+      }
+
+      /* Screen Gloss Overlay */
+      .mv-screen-glare {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 40%, transparent 60%);
+        z-index: 60;
+      }
+
+      /* ── Realistic Mobile OS Status Bar Overlays ── */
+      .mv-status-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 38px;
+        z-index: 100;
+        pointer-events: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 22px;
+        color: #000;
+        font-family: -apple-system, BlinkMacSystemFont, 'Inter', system-ui, sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        text-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
+      }
+      .mv-status-time { font-weight: 800; font-size: 13px; }
+      .mv-status-icons { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; }
+      .mv-battery-icon {
+        width: 22px;
+        height: 11px;
+        border: 1.5px solid currentColor;
+        border-radius: 3.5px;
+        padding: 1.5px;
+        display: flex;
+        align-items: center;
+        position: relative;
+      }
+      .mv-battery-icon::after {
+        content: "";
+        position: absolute;
+        right: -3.5px;
+        top: 2.5px;
+        width: 2px;
+        height: 4px;
+        background: currentColor;
+        border-radius: 0 1px 1px 0;
+      }
+      .mv-battery-fill { width: 100%; height: 100%; background: #22c55e; border-radius: 1px; }
+
+      /* Dynamic Island */
+      .mv-dynamic-island {
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 110px;
+        height: 28px;
+        background: #000;
+        border-radius: 20px;
+        z-index: 150;
+        pointer-events: none;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6), inset 0 0 2px rgba(255, 255, 255, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 8px;
+      }
+      .mv-island-cam {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: radial-gradient(circle, #1d2238 25%, #080911 80%);
+        border: 1px solid #141724;
+      }
+      .mv-island-sensor {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #0d0f17;
+      }
+
+      /* Android Punch Hole Camera */
+      .mv-camera-hole {
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 13px;
+        height: 13px;
+        background: radial-gradient(circle, #1d2238 30%, #060608 85%);
+        border: 1.5px solid #1c1e28;
+        border-radius: 50%;
+        z-index: 150;
+        pointer-events: none;
+        box-shadow: 0 0 3px rgba(0,0,0,0.5);
+      }
+
+      /* Bottom Home Indicator Bar */
+      .mv-home-indicator {
+        position: absolute;
+        bottom: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 130px;
+        height: 4px;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        z-index: 100;
+        pointer-events: none;
+        box-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+      }
+
       /* Modals */
       .mv-modal {
         position: fixed;
@@ -950,24 +1168,24 @@
         z-index: 2;
         background: #14151f;
         border: 1px solid rgba(255, 255, 255, 0.15);
-        border-radius: 16px;
+        border-radius: 18px;
         width: 100%;
-        max-width: 440px;
-        padding: 1.5rem;
-        box-shadow: 0 25px 60px rgba(0,0,0,0.75);
+        max-width: 460px;
+        padding: 1.6rem;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
       }
       .mv-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; color: #fff; }
-      .mv-modal-close { background: none; border: none; color: #7b7f99; font-size: 1.2rem; cursor: pointer; }
+      .mv-modal-close { background: none; border: none; color: #7b7f99; font-size: 1.3rem; cursor: pointer; }
       .mv-modal-close:hover { color: #fff; }
-      .mv-modal-desc { font-size: 0.85rem; color: #7b7f99; margin-bottom: 1rem; line-height: 1.45; }
-      .mv-qr-box { padding: 1rem; background: #fff; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 0.75rem; }
-      .mv-qr-url-text { font-size: 0.75rem; font-family: monospace; color: #38bdf8; text-align: center; word-break: break-all; margin-bottom: 0.75rem; }
-      .mv-modal-sub { font-size: 0.75rem; color: #7b7f99; text-align: center; }
-      .mv-modal-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(4px); }
-      .mv-form-row { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 0.9rem; }
-      .mv-form-row label { font-size: 0.78rem; font-weight: 600; color: #7b7f99; }
+      .mv-modal-desc { font-size: 0.86rem; color: #94a3b8; margin-bottom: 1rem; line-height: 1.45; }
+      .mv-qr-box { padding: 1.2rem; background: #fff; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 0.85rem; }
+      .mv-qr-url-text { font-size: 0.76rem; font-family: monospace; color: #38bdf8; text-align: center; word-break: break-all; margin-bottom: 0.85rem; }
+      .mv-modal-sub { font-size: 0.76rem; color: #7b7f99; text-align: center; }
+      .mv-modal-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(6px); }
+      .mv-form-row { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 0.95rem; }
+      .mv-form-row label { font-size: 0.8rem; font-weight: 600; color: #94a3b8; }
       .mv-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-      .mv-modal-actions { display: flex; justify-content: flex-end; gap: 0.6rem; margin-top: 1.25rem; }
+      .mv-modal-actions { display: flex; justify-content: flex-end; gap: 0.6rem; margin-top: 1.35rem; }
     `;
     document.head.appendChild(styleEl);
   }
@@ -984,7 +1202,7 @@
   let customDevices = [];
 
   /* ── Open Standalone Window Popup ── */
-  function openDevicePopup(device, urlToOpen, orientationOverride) {
+  function openDevicePopup(device, urlToOpen, orientationOverride, offsetX = 0, offsetY = 0) {
     const isLandscape = orientationOverride
       ? orientationOverride === "landscape"
       : (orientations[device.id] === "landscape");
@@ -992,9 +1210,11 @@
     const w = isLandscape ? device.height : device.width;
     const h = isLandscape ? device.width : device.height;
 
-    // Calculate center on screen
-    const left = Math.max(0, Math.round((screen.width - w) / 2));
-    const top = Math.max(0, Math.round((screen.height - h) / 2));
+    // Calculate position on screen
+    const baseLeft = Math.max(0, Math.round((screen.width - w) / 2));
+    const baseTop = Math.max(0, Math.round((screen.height - h) / 2));
+    const left = Math.min(screen.width - w, baseLeft + offsetX);
+    const top = Math.min(screen.height - h, baseTop + offsetY);
 
     const features = `width=${w},height=${h},left=${left},top=${top},menubar=no,toolbar=no,location=no,status=no,resizable=yes,scrollbars=yes`;
     
@@ -1012,7 +1232,7 @@
     }
   }
 
-  /* ── Open All Selected Devices in Popups ── */
+  /* ── Open All Selected Devices in Popups with Tiling ── */
   function openAllPopups(devices, urlToOpen) {
     if (!devices || devices.length === 0) {
       alert("Please select at least one device first.");
@@ -1020,11 +1240,15 @@
     }
 
     let delay = 0;
+    let offsetStep = 0;
     devices.forEach((device) => {
       setTimeout(() => {
-        openDevicePopup(device, urlToOpen);
+        const ox = (offsetStep % 4) * 60 - 90;
+        const oy = (offsetStep % 4) * 40 - 60;
+        openDevicePopup(device, urlToOpen, null, ox, oy);
+        offsetStep++;
       }, delay);
-      delay += 180;
+      delay += 200;
     });
   }
 
@@ -1043,12 +1267,12 @@
     id: "multi-view",
     name: "Multi View (Device Tester)",
     icon: "📱",
-    desc: "Preview websites & projects across iPhone 17 Pro Max, Samsung S25 Ultra, Poco F8 Pro, MacBooks, & Smartwatches",
+    desc: "Preview websites across realistic iPhone 17 Pro Max, Samsung S25 Ultra, Poco F8 Pro, MacBooks, & Smartwatches",
     category: "Developer Tools",
     catIcon: "💻",
 
     render(body) {
-      // Inject styles immediately to ensure 100% flawless appearance
+      // Inject self-contained styles immediately
       injectMultiViewStyles();
 
       // Add wide-layout class to tool container and app shell
@@ -1062,7 +1286,14 @@
         <div class="mv-container">
           <!-- ── Top Control Bar & URL Input ── -->
           <div class="mv-topbar">
-            <div class="mv-hero-badge">⚡ Multi View · Responsive Layout Simulator</div>
+            <div class="mv-hero-row">
+              <div class="mv-hero-badge">⚡ Multi View · Real Phone & Multi-Device Studio</div>
+              <div class="mv-hero-stats">
+                <span class="mv-stat-pill">📱 ${DEVICE_DATABASE.length} Flagship Profiles</span>
+                <span class="mv-stat-pill">✨ Realistic Hardware Bezels</span>
+                <span class="mv-stat-pill">🪟 Standalone Popup Simulator</span>
+              </div>
+            </div>
             
             <div class="mv-url-box">
               <span class="mv-url-icon">🌐</span>
@@ -1082,21 +1313,33 @@
             </div>
           </div>
 
+          <!-- ── Quick Multi-Screen Combos Panel ── -->
+          <div class="mv-combos-panel">
+            <span class="mv-combos-title">🚀 1-Click Multi-Screen Workspace Presets:</span>
+            <div class="mv-combos-list">
+              ${MULTI_SCREEN_COMBOS.map(c => `
+                <button class="mv-combo-btn" data-combo-id="${esc(c.id)}" title="${esc(c.desc)}">
+                  ${esc(c.label)}
+                </button>
+              `).join("")}
+            </div>
+          </div>
+
           <!-- ── Toolbar (Global Actions, Popups, Zoom, Filter) ── -->
           <div class="mv-toolbar">
             <!-- Left: Device Category Filter Tabs -->
             <div class="mv-cat-tabs">
-              <button class="mv-tab ${activeCategory === 'all' ? 'active' : ''}" data-cat="all">🌟 All Devices (${DEVICE_DATABASE.length})</button>
+              <button class="mv-tab ${activeCategory === 'all' ? 'active' : ''}" data-cat="all">🌟 All (${DEVICE_DATABASE.length})</button>
               <button class="mv-tab ${activeCategory === 'mobile' ? 'active' : ''}" data-cat="mobile">📱 Phones (${DEVICE_DATABASE.filter(d=>d.category==='mobile').length})</button>
               <button class="mv-tab ${activeCategory === 'tablet' ? 'active' : ''}" data-cat="tablet">📟 Tablets (${DEVICE_DATABASE.filter(d=>d.category==='tablet').length})</button>
               <button class="mv-tab ${activeCategory === 'desktop' ? 'active' : ''}" data-cat="desktop">💻 Desktops (${DEVICE_DATABASE.filter(d=>d.category==='desktop').length})</button>
-              <button class="mv-tab ${activeCategory === 'smartwatch' ? 'active' : ''}" data-cat="smartwatch">⌚ Smartwatches (${DEVICE_DATABASE.filter(d=>d.category==='smartwatch').length})</button>
+              <button class="mv-tab ${activeCategory === 'smartwatch' ? 'active' : ''}" data-cat="smartwatch">⌚ Watches (${DEVICE_DATABASE.filter(d=>d.category==='smartwatch').length})</button>
             </div>
 
             <!-- Right: Action Controls -->
             <div class="mv-actions-group">
               <!-- Launch All Popups -->
-              <button class="mv-action-btn mv-btn-popup-all" id="mvBtnPopupAll" title="Open separate popup windows for all selected devices">
+              <button class="mv-action-btn mv-btn-popup-all" id="mvBtnPopupAll" title="Open separate popup windows for all selected devices simultaneously">
                 🪟 Launch Selected Popups (<span id="mvSelectedCount">${activeDeviceIds.size}</span>)
               </button>
 
@@ -1134,13 +1377,13 @@
           <!-- ── Device Selection Drawer / Fast Picker ── -->
           <div class="mv-picker-panel">
             <div class="mv-picker-header">
-              <span class="mv-picker-title">⚡ Device Presets (Click 🪟 for instant Popup Window, or check to show in live grid):</span>
+              <span class="mv-picker-title">⚡ Select Devices (Checked devices display live on the canvas below):</span>
               <div class="mv-picker-quick">
                 <button class="mv-link-btn" id="mvSelectAll">Select All</button>
                 <span>•</span>
                 <button class="mv-link-btn" id="mvSelectNone">Deselect All</button>
                 <span>•</span>
-                <button class="mv-link-btn" id="mvSelectFlagships">Famous Flagships Only</button>
+                <button class="mv-link-btn" id="mvSelectFlagships">Flagships Only</button>
               </div>
             </div>
 
@@ -1154,7 +1397,7 @@
             <div class="mv-notice-content">
               <span class="mv-notice-icon">💡</span>
               <span class="mv-notice-text">
-                <strong>Pro-Tip:</strong> To test local development projects (e.g. <code>localhost:3000</code> or <code>localhost:5173</code>) or any web page, the <strong>🪟 Popup Window</strong> feature opens exact pixel-sized browser windows that bypass all iframe restrictions!
+                <strong>Pro-Tip:</strong> To test projects with restricted iframe headers, click <strong>🪟 Popup</strong> on any device card to launch a standalone pixel-perfect viewport that runs 100% unrestricted!
               </span>
             </div>
           </div>
@@ -1299,7 +1542,7 @@
               <div class="mv-card-actions">
                 <label class="mv-checkbox-label" title="Toggle inside in-app grid">
                   <input type="checkbox" class="mv-card-check" data-id="${esc(d.id)}" ${isChecked ? 'checked' : ''} />
-                  <span>In-App Grid</span>
+                  <span>Show Screen</span>
                 </label>
                 <button class="mv-btn-popup-single" data-id="${esc(d.id)}" title="Open dedicated standalone popup window">
                   🪟 Popup
@@ -1339,7 +1582,7 @@
         selectedCountEl.textContent = activeDeviceIds.size;
       }
 
-      /* ── Render Canvas Frames ── */
+      /* ── Render Canvas Frames with Hyper-Realistic Hardware ── */
       function renderCanvasFrames() {
         const all = getAllDevices();
         const selected = all.filter(d => activeDeviceIds.has(d.id));
@@ -1348,15 +1591,16 @@
           canvasGrid.innerHTML = `
             <div class="mv-empty-state">
               <span class="mv-empty-icon">📱</span>
-              <h3>No Devices Selected for Live Grid</h3>
-              <p>Check one or more devices above or click <strong>🪟 Popup</strong> on any device to open an instant exact-dimension window.</p>
-              <button class="btn-action" id="mvBtnSelectDefaults">Show Flagship Devices</button>
+              <h3>No Screens Selected</h3>
+              <p>Choose a multi-screen combo above or check one or more devices to preview multiple screens simultaneously.</p>
+              <button class="btn-action" id="mvBtnSelectDefaults">🔥 Load Flagship Trio (3 Screens)</button>
             </div>
           `;
           const defBtn = canvasGrid.querySelector("#mvBtnSelectDefaults");
           if (defBtn) {
             defBtn.addEventListener("click", () => {
-              DEVICE_DATABASE.filter(d => d.defaultActive).forEach(d => activeDeviceIds.add(d.id));
+              activeDeviceIds.clear();
+              ["iphone-17-pm", "samsung-s25-ultra", "poco-f8-pro"].forEach(id => activeDeviceIds.add(id));
               updateSelectedCount();
               renderDeviceCards();
               renderCanvasFrames();
@@ -1371,6 +1615,8 @@
           const isLandscape = orientations[dev.id] === "landscape";
           const width = isLandscape ? dev.height : dev.width;
           const height = isLandscape ? dev.width : dev.height;
+          const isMobile = dev.category === "mobile";
+          const isIOS = dev.frameType.startsWith("ios");
           const frameClass = deviceSkinEnabled ? `skin-${dev.frameType}` : 'skin-none';
 
           return `
@@ -1378,7 +1624,7 @@
               <!-- Frame Header / Control bar -->
               <div class="mv-frame-header">
                 <div class="mv-frame-title">
-                  <span class="mv-frame-icon">${dev.icon}</span>
+                  <span>${dev.icon}</span>
                   <strong>${esc(dev.name)}</strong>
                   <span class="mv-frame-dim">${width} × ${height}</span>
                   ${isLandscape ? '<span class="mv-pill-landscape">Landscape</span>' : ''}
@@ -1388,30 +1634,87 @@
                   <button class="mv-frame-ctrl-btn mv-ctrl-popup" data-id="${esc(dev.id)}" title="Open as Standalone Popup Window">🪟 Popup</button>
                   <button class="mv-frame-ctrl-btn mv-ctrl-rotate" data-id="${esc(dev.id)}" title="Rotate Orientation">🔄 Rotate</button>
                   <button class="mv-frame-ctrl-btn mv-ctrl-reload" data-id="${esc(dev.id)}" title="Reload Frame">🔃</button>
-                  <button class="mv-frame-ctrl-btn mv-ctrl-remove" data-id="${esc(dev.id)}" title="Remove from grid">✕</button>
+                  <button class="mv-frame-ctrl-btn mv-ctrl-remove" data-id="${esc(dev.id)}" title="Remove screen">✕</button>
                 </div>
               </div>
 
-              <!-- Frame Screen Container with Hardware Bezel Mockup -->
-              <div class="mv-device-mockup ${frameClass} ${isLandscape ? 'is-landscape' : 'is-portrait'}">
-                <!-- Hardware Details -->
-                ${dev.frameType === 'ios-island' ? '<div class="mv-dynamic-island"></div>' : ''}
-                ${dev.frameType === 'android-hole' ? '<div class="mv-camera-hole"></div>' : ''}
-                ${dev.frameType === 'laptop-mac' ? '<div class="mv-mac-notch"></div>' : ''}
-                ${dev.frameType.startsWith('watch') ? '<div class="mv-watch-crown"></div>' : ''}
+              <!-- Phone Chassis Wrapper with Physical Hardware Buttons -->
+              <div class="mv-phone-wrapper">
+                <div class="mv-phone-chassis ${frameClass} ${isLandscape ? 'is-landscape' : 'is-portrait'}">
+                  
+                  <!-- Physical Hardware Buttons (Side volume, action, power) -->
+                  ${isMobile && deviceSkinEnabled && !isLandscape ? `
+                    <div class="mv-hw-btn mv-btn-action"></div>
+                    <div class="mv-hw-btn mv-btn-vol-up"></div>
+                    <div class="mv-hw-btn mv-btn-vol-down"></div>
+                    <div class="mv-hw-btn mv-btn-power"></div>
+                    <div class="mv-antenna mv-ant-tl"></div>
+                    <div class="mv-antenna mv-ant-tr"></div>
+                    <div class="mv-antenna mv-ant-bl"></div>
+                    <div class="mv-antenna mv-ant-br"></div>
+                  ` : ''}
 
-                <!-- Responsive Screen Box -->
-                <div class="mv-screen-box" style="width: ${width}px; height: ${height}px;">
-                  <iframe
-                    src="${esc(validUrl)}"
-                    class="mv-iframe"
-                    title="${esc(dev.name)} preview"
-                    sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals"
-                    loading="lazy"
-                  ></iframe>
+                  ${dev.frameType === 'watch-apple-ultra' && deviceSkinEnabled ? `
+                    <div class="mv-watch-crown"></div>
+                  ` : ''}
+
+                  <!-- Screen Container -->
+                  <div class="mv-screen-box" style="width: ${width}px; height: ${height}px;">
+                    
+                    <!-- Realistic Mobile OS Status Bar Overlay -->
+                    ${isMobile && deviceSkinEnabled && !isLandscape ? `
+                      <div class="mv-status-bar">
+                        <span class="mv-status-time">${isIOS ? '9:41' : '12:00'}</span>
+                        
+                        ${dev.frameType === 'ios-island' ? `
+                          <div class="mv-dynamic-island">
+                            <span class="mv-island-cam"></span>
+                            <span class="mv-island-sensor"></span>
+                          </div>
+                        ` : ''}
+
+                        ${dev.frameType === 'android-hole' ? `
+                          <div class="mv-camera-hole"></div>
+                        ` : ''}
+
+                        <div class="mv-status-icons">
+                          <span>5G</span>
+                          <span>📶</span>
+                          <div class="mv-battery-icon"><div class="mv-battery-fill"></div></div>
+                        </div>
+                      </div>
+                    ` : ''}
+
+                    <!-- Mac Notch -->
+                    ${dev.frameType === 'laptop-mac' && deviceSkinEnabled ? `
+                      <div class="mv-mac-notch">
+                        <div class="mv-mac-cam"></div>
+                      </div>
+                    ` : ''}
+
+                    <!-- Iframe Viewport -->
+                    <iframe
+                      src="${esc(validUrl)}"
+                      class="mv-iframe"
+                      title="${esc(dev.name)} preview"
+                      sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals"
+                      loading="lazy"
+                    ></iframe>
+
+                    <!-- Glare & Reflection overlay -->
+                    ${deviceSkinEnabled ? '<div class="mv-screen-glare"></div>' : ''}
+
+                    <!-- Bottom Gesture / Home Bar -->
+                    ${isMobile && deviceSkinEnabled && !isLandscape ? `
+                      <div class="mv-home-indicator"></div>
+                    ` : ''}
+                  </div>
+
+                  <!-- Laptop Keyboard Deck Base -->
+                  ${dev.frameType === 'laptop-mac' && deviceSkinEnabled ? `
+                    <div class="mv-laptop-base"></div>
+                  ` : ''}
                 </div>
-
-                ${dev.frameType === 'laptop-mac' || dev.frameType === 'laptop' ? '<div class="mv-laptop-base"></div>' : ''}
               </div>
             </div>
           `;
@@ -1484,6 +1787,21 @@
         });
       });
 
+      // Multi-Screen Combos
+      body.querySelectorAll(".mv-combo-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const comboId = btn.dataset.comboId;
+          const combo = MULTI_SCREEN_COMBOS.find(c => c.id === comboId);
+          if (combo) {
+            activeDeviceIds.clear();
+            combo.deviceIds.forEach(id => activeDeviceIds.add(id));
+            updateSelectedCount();
+            renderDeviceCards();
+            renderCanvasFrames();
+          }
+        });
+      });
+
       // Category Tabs
       catTabs.forEach(tab => {
         tab.addEventListener("click", () => {
@@ -1553,7 +1871,7 @@
 
       selectFlagshipsBtn.addEventListener("click", () => {
         activeDeviceIds.clear();
-        ["iphone-17-pm", "samsung-s25-ultra", "poco-f8-pro", "ipad-pro-13", "macbook-pro-16", "apple-watch-ultra-2"].forEach(id => {
+        ["iphone-17-pm", "samsung-s25-ultra", "poco-f8-pro"].forEach(id => {
           activeDeviceIds.add(id);
         });
         updateSelectedCount();
