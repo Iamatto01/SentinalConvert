@@ -820,17 +820,26 @@
       /* Canvas */
       .mv-canvas-wrapper {
         width: 100%;
-        overflow-x: auto;
-        overflow-y: visible;
+        overflow: auto;
         padding: 2rem 0 4rem;
+        position: relative;
       }
       .mv-canvas-grid {
+        position: relative;
+        min-height: 500px;
+        width: 100%;
+      }
+      /* Grid mode (default before any drag) */
+      .mv-canvas-grid.grid-mode {
         display: flex;
         flex-wrap: wrap;
         align-items: flex-start;
         justify-content: center;
         gap: 3.5rem;
-        width: 100%;
+      }
+      /* Free-form mode (after first drag) */
+      .mv-canvas-grid.freeform-mode {
+        display: block;
       }
       .mv-empty-state {
         text-align: center;
@@ -840,6 +849,7 @@
         border-radius: 20px;
         width: 100%;
         max-width: 620px;
+        margin: 0 auto;
       }
       .mv-empty-icon { font-size: 3.5rem; display: block; margin-bottom: 1rem; }
       .mv-empty-state h3 { font-size: 1.35rem; margin-bottom: 0.5rem; color: #fff; }
@@ -850,7 +860,25 @@
         flex-direction: column;
         align-items: center;
         gap: 0.85rem;
+        transition: box-shadow 0.15s ease;
       }
+      /* When in freeform mode, frames are absolutely positioned */
+      .mv-canvas-grid.freeform-mode .mv-frame-card {
+        position: absolute;
+      }
+      .mv-frame-card.is-dragging {
+        z-index: 9000 !important;
+        opacity: 0.92;
+      }
+      /* Iframe drag shield — covers iframes during drag so mouse events aren't stolen */
+      .mv-drag-shield {
+        position: fixed;
+        inset: 0;
+        z-index: 8999;
+        cursor: grabbing;
+        display: none;
+      }
+      .mv-drag-shield.active { display: block; }
       .mv-frame-header {
         display: flex;
         align-items: center;
@@ -862,6 +890,15 @@
         border-radius: 12px;
         padding: 0.5rem 0.9rem;
         backdrop-filter: blur(10px);
+        cursor: grab;
+        user-select: none;
+      }
+      .mv-frame-header:active { cursor: grabbing; }
+      .mv-drag-indicator {
+        font-size: 0.85rem;
+        opacity: 0.4;
+        margin-right: 0.2rem;
+        cursor: grab;
       }
       .mv-frame-title { display: flex; align-items: center; gap: 0.5rem; font-size: 0.84rem; color: #fff; }
       .mv-frame-dim {
@@ -1473,6 +1510,10 @@
   let globalZoom = 0.65; // scale factor
   let deviceSkinEnabled = true;
   let customDevices = [];
+  let devicePositions = {}; // deviceId -> { x, y }
+  let isFreeformMode = false;
+  let zCounter = 1;
+  let topZ = 100;
 
   /* ── Open Standalone Window Popup ── */
   function openDevicePopup(device, urlToOpen, orientationOverride, offsetX = 0, offsetY = 0) {
@@ -1644,6 +1685,11 @@
               <button class="mv-action-btn" id="mvBtnCustomDevice" title="Add Custom Screen Size">
                 ➕ Custom Size
               </button>
+
+              <!-- Reset Layout (snap back to grid) -->
+              <button class="mv-action-btn" id="mvBtnResetLayout" title="Reset all phones back to grid layout">
+                📌 Reset Grid
+              </button>
             </div>
           </div>
 
@@ -1677,9 +1723,11 @@
 
           <!-- ── Live In-App Multi-View Canvas ── -->
           <div class="mv-canvas-wrapper" id="mvCanvasWrapper">
-            <div class="mv-canvas-grid" id="mvCanvasGrid" style="--zoom: ${globalZoom};">
+            <div class="mv-canvas-grid ${isFreeformMode ? 'freeform-mode' : 'grid-mode'}" id="mvCanvasGrid" style="--zoom: ${globalZoom};">
               <!-- Populated by renderCanvasFrames() -->
             </div>
+            <!-- Invisible overlay to prevent iframes stealing mouse during drag -->
+            <div class="mv-drag-shield" id="mvDragShield"></div>
           </div>
         </div>
 
@@ -1761,6 +1809,7 @@
       const zoomValueEl = body.querySelector("#mvZoomValue");
       const btnRefreshAll = body.querySelector("#mvBtnRefreshAll");
       const btnCustomDevice = body.querySelector("#mvBtnCustomDevice");
+      const btnResetLayout = body.querySelector("#mvBtnResetLayout");
       const selectAllBtn = body.querySelector("#mvSelectAll");
       const selectNoneBtn = body.querySelector("#mvSelectNone");
       const selectFlagshipsBtn = body.querySelector("#mvSelectFlagships");
@@ -1859,6 +1908,10 @@
         const all = getAllDevices();
         const selected = all.filter(d => activeDeviceIds.has(d.id));
 
+        // Set the correct layout mode class
+        canvasGrid.classList.toggle("grid-mode", !isFreeformMode);
+        canvasGrid.classList.toggle("freeform-mode", isFreeformMode);
+
         if (selected.length === 0) {
           canvasGrid.innerHTML = `
             <div class="mv-empty-state">
@@ -1882,6 +1935,7 @@
         }
 
         const validUrl = formatURL(currentURL);
+        zCounter = 1;
 
         canvasGrid.innerHTML = selected.map(dev => {
           const isLandscape = orientations[dev.id] === "landscape";
@@ -1892,10 +1946,11 @@
           const frameClass = deviceSkinEnabled ? `skin-${dev.frameType}` : 'skin-none';
 
           return `
-            <div class="mv-frame-card" data-device-id="${esc(dev.id)}">
-              <!-- Frame Header / Control bar -->
-              <div class="mv-frame-header">
+            <div class="mv-frame-card" data-device-id="${esc(dev.id)}" style="z-index: ${zCounter++};">
+              <!-- Frame Header / Drag Handle + Control bar -->
+              <div class="mv-frame-header mv-drag-handle" data-drag-id="${esc(dev.id)}">
                 <div class="mv-frame-title">
+                  <span class="mv-drag-indicator" title="Drag to reposition">⠿</span>
                   <span>${dev.icon}</span>
                   <strong>${esc(dev.name)}</strong>
                   <span class="mv-frame-dim">${width} × ${height}</span>
@@ -2022,11 +2077,182 @@
         canvasGrid.querySelectorAll(".mv-ctrl-remove").forEach(btn => {
           btn.addEventListener("click", () => {
             activeDeviceIds.delete(btn.dataset.id);
+            delete devicePositions[btn.dataset.id];
             updateSelectedCount();
             renderDeviceCards();
             renderCanvasFrames();
           });
         });
+
+        // ── Attach Drag Handlers to each frame header ──
+        attachDragHandlers();
+
+        // ── Restore saved positions if in freeform mode ──
+        if (isFreeformMode) {
+          canvasGrid.querySelectorAll(".mv-frame-card").forEach(card => {
+            const id = card.dataset.deviceId;
+            if (devicePositions[id]) {
+              card.style.left = devicePositions[id].x + "px";
+              card.style.top = devicePositions[id].y + "px";
+            }
+          });
+        }
+      }
+
+      /* ── Drag & Drop Free-Form Positioning ── */
+      const dragShield = body.querySelector("#mvDragShield");
+      let dragState = null; // { el, deviceId, startX, startY, origLeft, origTop }
+
+      function attachDragHandlers() {
+        canvasGrid.querySelectorAll(".mv-drag-handle").forEach(handle => {
+          handle.addEventListener("mousedown", onDragStart);
+          handle.addEventListener("touchstart", onTouchStart, { passive: false });
+        });
+      }
+
+      function switchToFreeform() {
+        if (isFreeformMode) return;
+        isFreeformMode = true;
+        canvasGrid.classList.remove("grid-mode");
+        canvasGrid.classList.add("freeform-mode");
+
+        // Snapshot current rendered positions before switching
+        const cards = canvasGrid.querySelectorAll(".mv-frame-card");
+        cards.forEach(card => {
+          const id = card.dataset.deviceId;
+          if (!devicePositions[id]) {
+            const rect = card.getBoundingClientRect();
+            const parentRect = canvasGrid.getBoundingClientRect();
+            devicePositions[id] = {
+              x: rect.left - parentRect.left,
+              y: rect.top - parentRect.top
+            };
+          }
+          card.style.left = devicePositions[id].x + "px";
+          card.style.top = devicePositions[id].y + "px";
+        });
+      }
+
+      function onDragStart(e) {
+        // Don't drag if clicking a button
+        if (e.target.closest("button")) return;
+        e.preventDefault();
+
+        const handle = e.currentTarget;
+        const card = handle.closest(".mv-frame-card");
+        const deviceId = handle.dataset.dragId;
+
+        // Switch to freeform mode on first drag
+        switchToFreeform();
+
+        // Bring to front
+        topZ++;
+        card.style.zIndex = topZ;
+
+        const parentRect = canvasGrid.getBoundingClientRect();
+        const cardRect = card.getBoundingClientRect();
+
+        dragState = {
+          el: card,
+          deviceId,
+          startX: e.clientX,
+          startY: e.clientY,
+          origLeft: cardRect.left - parentRect.left,
+          origTop: cardRect.top - parentRect.top
+        };
+
+        card.classList.add("is-dragging");
+        dragShield.classList.add("active");
+
+        document.addEventListener("mousemove", onDragMove);
+        document.addEventListener("mouseup", onDragEnd);
+      }
+
+      function onDragMove(e) {
+        if (!dragState) return;
+        const dx = e.clientX - dragState.startX;
+        const dy = e.clientY - dragState.startY;
+        const newX = dragState.origLeft + dx;
+        const newY = dragState.origTop + dy;
+
+        dragState.el.style.left = newX + "px";
+        dragState.el.style.top = newY + "px";
+      }
+
+      function onDragEnd(e) {
+        if (!dragState) return;
+        const dx = e.clientX - dragState.startX;
+        const dy = e.clientY - dragState.startY;
+        const finalX = dragState.origLeft + dx;
+        const finalY = dragState.origTop + dy;
+
+        // Save position
+        devicePositions[dragState.deviceId] = { x: finalX, y: finalY };
+
+        dragState.el.classList.remove("is-dragging");
+        dragShield.classList.remove("active");
+
+        document.removeEventListener("mousemove", onDragMove);
+        document.removeEventListener("mouseup", onDragEnd);
+        dragState = null;
+      }
+
+      // Touch support
+      function onTouchStart(e) {
+        if (e.target.closest("button")) return;
+        e.preventDefault();
+        const touch = e.touches[0];
+        const handle = e.currentTarget;
+        const card = handle.closest(".mv-frame-card");
+        const deviceId = handle.dataset.dragId;
+
+        switchToFreeform();
+        topZ++;
+        card.style.zIndex = topZ;
+
+        const parentRect = canvasGrid.getBoundingClientRect();
+        const cardRect = card.getBoundingClientRect();
+
+        dragState = {
+          el: card,
+          deviceId,
+          startX: touch.clientX,
+          startY: touch.clientY,
+          origLeft: cardRect.left - parentRect.left,
+          origTop: cardRect.top - parentRect.top
+        };
+
+        card.classList.add("is-dragging");
+        dragShield.classList.add("active");
+
+        document.addEventListener("touchmove", onTouchMove, { passive: false });
+        document.addEventListener("touchend", onTouchEnd);
+      }
+
+      function onTouchMove(e) {
+        if (!dragState) return;
+        e.preventDefault();
+        const touch = e.touches[0];
+        const dx = touch.clientX - dragState.startX;
+        const dy = touch.clientY - dragState.startY;
+        dragState.el.style.left = (dragState.origLeft + dx) + "px";
+        dragState.el.style.top = (dragState.origTop + dy) + "px";
+      }
+
+      function onTouchEnd(e) {
+        if (!dragState) return;
+        const touch = e.changedTouches[0];
+        const dx = touch.clientX - dragState.startX;
+        const dy = touch.clientY - dragState.startY;
+        devicePositions[dragState.deviceId] = {
+          x: dragState.origLeft + dx,
+          y: dragState.origTop + dy
+        };
+        dragState.el.classList.remove("is-dragging");
+        dragShield.classList.remove("active");
+        document.removeEventListener("touchmove", onTouchMove);
+        document.removeEventListener("touchend", onTouchEnd);
+        dragState = null;
       }
 
       /* ── Set Zoom Helper ── */
@@ -2164,6 +2390,13 @@
       function closeQRModal() { qrModal.classList.remove("active"); }
       qrModalClose.addEventListener("click", closeQRModal);
       qrModalBackdrop.addEventListener("click", closeQRModal);
+
+      // Reset Layout (snap back to grid)
+      btnResetLayout.addEventListener("click", () => {
+        devicePositions = {};
+        isFreeformMode = false;
+        renderCanvasFrames();
+      });
 
       // Custom Device Modal
       btnCustomDevice.addEventListener("click", () => {
