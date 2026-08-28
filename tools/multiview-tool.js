@@ -133,8 +133,7 @@
       os: "iPadOS 18",
       frameType: "tablet-ios",
       icon: "📟",
-      badge: "Large Tablet",
-      defaultActive: true
+      badge: "Large Tablet"
     },
     {
       id: "ipad-air-11",
@@ -203,8 +202,7 @@
       os: "macOS Sequoia",
       frameType: "laptop-mac",
       icon: "💻",
-      badge: "Pro Laptop",
-      defaultActive: true
+      badge: "Pro Laptop"
     },
     {
       id: "desktop-1080p",
@@ -278,23 +276,22 @@
       name: "Apple Watch Ultra 2 (49mm)",
       category: "smartwatch",
       catName: "Smartwatches",
-      width: 205,
-      height: 251,
+      width: 300,
+      height: 360,
       dpr: 2,
-      screen: "1.92\" OLED Always-On",
+      screen: "1.92\" OLED Display",
       os: "watchOS 11",
       frameType: "watch-apple-ultra",
       icon: "⌚",
-      badge: "Smartwatch",
-      defaultActive: true
+      badge: "Smartwatch"
     },
     {
       id: "apple-watch-10",
       name: "Apple Watch Series 10 (46mm)",
       category: "smartwatch",
       catName: "Smartwatches",
-      width: 208,
-      height: 248,
+      width: 280,
+      height: 340,
       dpr: 2,
       screen: "Wide-Angle OLED",
       os: "watchOS 11",
@@ -306,10 +303,10 @@
       name: "Samsung Galaxy Watch 7 (44mm)",
       category: "smartwatch",
       catName: "Smartwatches",
-      width: 240,
-      height: 240,
+      width: 300,
+      height: 300,
       dpr: 2,
-      screen: "1.5\" Super AMOLED Circular",
+      screen: "1.5\" AMOLED Circular",
       os: "Wear OS 5",
       frameType: "watch-round",
       icon: "⌚"
@@ -319,8 +316,8 @@
       name: "Google Pixel Watch 3 (45mm)",
       category: "smartwatch",
       catName: "Smartwatches",
-      width: 228,
-      height: 228,
+      width: 290,
+      height: 290,
       dpr: 2,
       screen: "1.4\" Actua Circular",
       os: "Wear OS",
@@ -333,15 +330,15 @@
   const MULTI_SCREEN_COMBOS = [
     {
       id: "combo-flagships",
-      label: "🔥 Flagship Duel (3 Phones)",
+      label: "🔥 Flagship Trio (3 Phones)",
       desc: "iPhone 17 Pro Max + Samsung Galaxy S25 Ultra + Poco F8 Pro",
       deviceIds: ["iphone-17-pm", "samsung-s25-ultra", "poco-f8-pro"]
     },
     {
       id: "combo-suite",
-      label: "💻 Full Ecosystem (4 Screens)",
-      desc: "iPhone 17 Pro Max + iPad Pro 13\" + MacBook Pro 16\" + Apple Watch Ultra 2",
-      deviceIds: ["iphone-17-pm", "ipad-pro-13", "macbook-pro-16", "apple-watch-ultra-2"]
+      label: "💻 Multi-Device Ecosystem",
+      desc: "iPhone 17 Pro Max + iPad Pro 13\" + MacBook Pro 16\"",
+      deviceIds: ["iphone-17-pm", "ipad-pro-13", "macbook-pro-16"]
     },
     {
       id: "combo-mobile-all",
@@ -357,7 +354,7 @@
     },
     {
       id: "combo-wearables",
-      label: "⌚ Smartwatch Duo (2 Watches)",
+      label: "⌚ Smartwatches (2 Watches)",
       desc: "Apple Watch Ultra 2 + Samsung Galaxy Watch 7",
       deviceIds: ["apple-watch-ultra-2", "galaxy-watch-7"]
     }
@@ -373,11 +370,6 @@
     { label: "🎨 Tailwind UI", url: "https://tailwindui.com" },
     { label: "📄 Example.com", url: "https://example.com" }
   ];
-
-  /* ── Standalone QR Code Generator URL ── */
-  function generateQRCodeDataURL(text) {
-    return `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(text)}&margin=10`;
-  }
 
   /* ── Inject Self-Contained Styles ── */
   function injectMultiViewStyles() {
@@ -412,6 +404,9 @@
         backdrop-filter: blur(20px);
         box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
       }
+      .mv-hero-row {
+        display: flex;
+        justify-content: space-between;
       .mv-hero-row {
         display: flex;
         justify-content: space-between;
@@ -489,19 +484,6 @@
         font-family: monospace;
         color: #94a3b8;
       }
-      .mv-btn-icon {
-        background: rgba(255, 255, 255, 0.08);
-        color: #e8e9f0;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 10px;
-        padding: 0.55rem 0.95rem;
-        font: inherit;
-        font-weight: 600;
-        font-size: 0.84rem;
-        cursor: pointer;
-        transition: background 0.15s;
-      }
-      .mv-btn-icon:hover { background: rgba(255, 255, 255, 0.16); }
       .mv-presets-bar {
         display: flex;
         align-items: center;
@@ -537,10 +519,10 @@
         background: rgba(20, 22, 34, 0.75);
         border: 1px solid rgba(255, 255, 255, 0.09);
         border-radius: 16px;
-        padding: 1rem 1.25rem;
+        padding: 0.9rem 1.2rem;
         display: flex;
         flex-direction: column;
-        gap: 0.65rem;
+        gap: 0.6rem;
       }
       .mv-combos-title {
         font-size: 0.76rem;
@@ -622,14 +604,6 @@
         transition: all 0.15s ease;
       }
       .mv-action-btn:hover { background: rgba(255, 255, 255, 0.14); border-color: rgba(255, 255, 255, 0.25); }
-      .mv-btn-popup-all {
-        background: linear-gradient(135deg, #06b6d4, #3b82f6) !important;
-        color: #fff !important;
-        border: none !important;
-        font-weight: 700 !important;
-        box-shadow: 0 4px 18px rgba(6, 182, 212, 0.35);
-      }
-      .mv-btn-popup-all:hover { opacity: 0.92; transform: translateY(-1px); }
       .mv-zoom-group {
         display: flex;
         align-items: center;
@@ -734,7 +708,6 @@
       }
       .mv-card-actions {
         display: flex;
-        justify-content: space-between;
         align-items: center;
         margin-top: 0.25rem;
         padding-top: 0.55rem;
@@ -744,11 +717,13 @@
       .mv-checkbox-label {
         display: flex;
         align-items: center;
-        gap: 0.45rem;
-        font-size: 0.78rem;
+        gap: 0.55rem;
+        font-size: 0.82rem;
+        font-weight: 600;
         color: #e2e8f0;
         cursor: pointer;
         user-select: none;
+        width: 100%;
       }
       .mv-card-check {
         -webkit-appearance: none;
@@ -784,44 +759,11 @@
         border-color: rgba(108, 99, 255, 0.6);
         background: rgba(108, 99, 255, 0.15);
       }
-      .mv-btn-popup-single {
-        background: rgba(6, 182, 212, 0.15);
-        border: 1px solid rgba(6, 182, 212, 0.35);
-        color: #38bdf8;
-        border-radius: 8px;
-        padding: 0.32rem 0.7rem;
-        font: inherit;
-        font-size: 0.76rem;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.15s ease;
-      }
-      .mv-btn-popup-single:hover {
-        background: #06b6d4;
-        border-color: #06b6d4;
-        color: #000;
-        box-shadow: 0 4px 14px rgba(6, 182, 212, 0.45);
-      }
-      /* Notice Bar */
-      .mv-notice-bar {
-        background: rgba(108, 99, 255, 0.08);
-        border: 1px solid rgba(108, 99, 255, 0.22);
-        border-radius: 14px;
-        padding: 0.85rem 1.15rem;
-      }
-      .mv-notice-content { display: flex; align-items: center; gap: 0.65rem; font-size: 0.84rem; color: #c4c1f7; }
-      .mv-notice-content code {
-        background: rgba(0, 0, 0, 0.4);
-        padding: 0.15rem 0.45rem;
-        border-radius: 4px;
-        font-family: monospace;
-        color: #93c5fd;
-      }
       /* Canvas */
       .mv-canvas-wrapper {
         width: 100%;
         overflow: auto;
-        padding: 2rem 0 4rem;
+        padding: 1.5rem 0 4rem;
         position: relative;
       }
       .mv-canvas-grid {
@@ -835,7 +777,7 @@
         flex-wrap: wrap;
         align-items: flex-start;
         justify-content: center;
-        gap: 3.5rem;
+        gap: 3rem;
       }
       /* Free-form mode (after first drag) */
       .mv-canvas-grid.freeform-mode {
@@ -856,10 +798,10 @@
       .mv-empty-state p { color: #94a3b8; font-size: 0.92rem; margin-bottom: 1.5rem; }
       /* Frame Card */
       .mv-frame-card {
-        display: flex;
+        display: inline-flex;
         flex-direction: column;
         align-items: center;
-        gap: 0.85rem;
+        gap: 0.75rem;
         transition: box-shadow 0.15s ease;
       }
       /* When in freeform mode, frames are absolutely positioned */
@@ -868,7 +810,7 @@
       }
       .mv-frame-card.is-dragging {
         z-index: 9000 !important;
-        opacity: 0.92;
+        opacity: 0.94;
       }
       /* Iframe drag shield — covers iframes during drag so mouse events aren't stolen */
       .mv-drag-shield {
@@ -884,14 +826,17 @@
         align-items: center;
         justify-content: space-between;
         width: 100%;
-        gap: 0.8rem;
-        background: rgba(20, 22, 34, 0.85);
+        min-width: 220px;
+        max-width: 100%;
+        gap: 0.6rem;
+        background: rgba(18, 20, 32, 0.9);
         border: 1px solid rgba(255, 255, 255, 0.12);
         border-radius: 12px;
-        padding: 0.5rem 0.9rem;
+        padding: 0.45rem 0.8rem;
         backdrop-filter: blur(10px);
         cursor: grab;
         user-select: none;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
       }
       .mv-frame-header:active { cursor: grabbing; }
       .mv-drag-indicator {
@@ -909,14 +854,6 @@
         padding: 0.15rem 0.45rem;
         border-radius: 6px;
       }
-      .mv-pill-landscape {
-        font-size: 0.65rem;
-        font-weight: 700;
-        padding: 0.15rem 0.45rem;
-        background: rgba(245, 158, 11, 0.2);
-        color: #fbbf24;
-        border-radius: 6px;
-      }
       .mv-frame-ctrls { display: flex; align-items: center; gap: 0.35rem; }
       .mv-frame-ctrl-btn {
         background: rgba(255, 255, 255, 0.08);
@@ -931,7 +868,6 @@
         transition: all 0.15s ease;
       }
       .mv-frame-ctrl-btn:hover { background: rgba(255, 255, 255, 0.18); }
-      .mv-ctrl-popup:hover { background: #06b6d4; color: #000; border-color: #06b6d4; }
       .mv-ctrl-remove:hover { background: #f87171; color: #fff; border-color: #f87171; }
 
       /* ═══════════════════════════════════════════════════════
@@ -940,12 +876,14 @@
          ═══════════════════════════════════════════════════════ */
       .mv-phone-wrapper {
         position: relative;
-        display: inline-block;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
         transform-origin: top center;
         transform: scale(var(--zoom, 0.65));
         margin-bottom: calc(-1 * (1 - var(--zoom, 0.65)) * 100%);
         /* Ambient floor shadow under the device */
-        filter: drop-shadow(0 40px 30px rgba(0, 0, 0, 0.55));
+        filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.55));
       }
 
       /* ── Base Chassis (shared by all devices) ── */
@@ -968,26 +906,19 @@
             #2b2d3a 92%,
             #3e4050 100%
           );
-        /* Outer metal rim highlight + inner shadow for depth */
         border: 3px solid transparent;
         background-clip: padding-box;
         box-shadow:
-          /* Outer highlight (top-left light source) */
           0 0 0 1px rgba(120, 125, 155, 0.45),
-          /* Outer bright edge (metal rim catch) */
           0 0 0 3px #2a2c38,
           0 0 0 4px rgba(100, 105, 130, 0.35),
-          /* Ambient shadow */
           0 30px 60px rgba(0, 0, 0, 0.5),
           0 10px 20px rgba(0, 0, 0, 0.3),
-          /* Inner top highlight */
           inset 0 2px 3px rgba(255, 255, 255, 0.15),
-          /* Inner bottom shadow */
           inset 0 -2px 3px rgba(0, 0, 0, 0.3);
       }
       .skin-ios-island .mv-screen-box {
         border-radius: 44px;
-        /* Inner bezel ring around the screen */
         box-shadow:
           0 0 0 2px #0a0b0f,
           0 0 0 3px rgba(60, 64, 80, 0.5),
@@ -1224,10 +1155,48 @@
         border-top: none;
       }
 
+      /* ── Watch Straps / Bands (Alpine Loop Style) ── */
+      .mv-watch-strap-top, .mv-watch-strap-bottom {
+        width: 150px;
+        height: 48px;
+        pointer-events: none;
+        position: relative;
+        z-index: 1;
+      }
+      .mv-watch-strap-top {
+        border-radius: 14px 14px 0 0;
+        margin-bottom: -10px;
+        background: linear-gradient(180deg, #df822b 0%, #b86018 70%, #87420e 100%);
+        border: 2.5px solid #6b330a;
+        border-bottom: none;
+        box-shadow: inset 0 2px 4px rgba(255,255,255,0.3), 0 -4px 12px rgba(0,0,0,0.5);
+      }
+      .mv-watch-strap-bottom {
+        border-radius: 0 0 14px 14px;
+        margin-top: -10px;
+        background: linear-gradient(180deg, #87420e 0%, #b86018 30%, #df822b 100%);
+        border: 2.5px solid #6b330a;
+        border-top: none;
+        box-shadow: inset 0 -2px 4px rgba(0,0,0,0.4), 0 6px 12px rgba(0,0,0,0.5);
+      }
+      .mv-watch-strap-top::after, .mv-watch-strap-bottom::after {
+        content: "";
+        position: absolute;
+        inset: 4px 12px;
+        background: repeating-linear-gradient(
+          to bottom,
+          rgba(0,0,0,0.2) 0px,
+          rgba(0,0,0,0.2) 2px,
+          transparent 2px,
+          transparent 6px
+        );
+        border-radius: 4px;
+      }
+
       /* ── Apple Watch Ultra 2 (Titanium Orange Case) ── */
       .skin-watch-apple-ultra {
-        border-radius: 44px;
-        padding: 20px;
+        border-radius: 48px;
+        padding: 18px;
         background:
           linear-gradient(145deg, #e8a060 0%, #c07838 25%, #a86428 50%, #c07838 75%, #d49050 100%);
         border: 4px solid #8c5225;
@@ -1238,35 +1207,33 @@
           inset 0 -2px 4px rgba(80, 40, 10, 0.4);
       }
       .skin-watch-apple-ultra .mv-screen-box {
-        border-radius: 30px;
-        box-shadow: 0 0 0 3px #1a1008, 0 0 0 5px rgba(120, 80, 30, 0.4);
+        border-radius: 34px;
+        box-shadow: 0 0 0 3px #1a1008, 0 0 0 4px rgba(120, 80, 30, 0.4);
       }
       .mv-watch-crown {
         position: absolute;
         right: -12px;
-        top: 30%;
+        top: 28%;
         width: 10px;
-        height: 32px;
+        height: 38px;
         background: linear-gradient(to right, #a0a3b5, #6b6e80, #505368);
         border-radius: 5px;
         box-shadow: 2px 0 4px rgba(0, 0, 0, 0.5), inset -1px 0 1px rgba(255, 255, 255, 0.15);
       }
-      /* Side button below crown */
-      .mv-watch-crown::after {
-        content: "";
+      .mv-watch-btn-orange {
         position: absolute;
-        top: 45px;
-        left: 1px;
+        left: -10px;
+        top: 36%;
         width: 8px;
-        height: 16px;
-        background: linear-gradient(to right, #9093a5, #60637a);
-        border-radius: 4px;
-        box-shadow: 1px 0 3px rgba(0, 0, 0, 0.4);
+        height: 36px;
+        background: linear-gradient(to right, #e8590c, #c04000);
+        border-radius: 4px 0 0 4px;
+        box-shadow: -2px 0 4px rgba(0,0,0,0.5);
       }
 
       /* Apple Watch Series 10 (Standard) */
       .skin-watch-apple {
-        border-radius: 38px;
+        border-radius: 44px;
         padding: 16px;
         background:
           linear-gradient(145deg, #38394a 0%, #1e2028 30%, #151620 60%, #22232e 100%);
@@ -1278,8 +1245,13 @@
           inset 0 -1px 3px rgba(0, 0, 0, 0.3);
       }
       .skin-watch-apple .mv-screen-box {
-        border-radius: 24px;
+        border-radius: 30px;
         box-shadow: 0 0 0 2px #0a0b0f;
+      }
+      .skin-watch-apple ~ .mv-watch-strap-top,
+      .skin-watch-apple ~ .mv-watch-strap-bottom {
+        background: linear-gradient(180deg, #2b2d3d, #161722);
+        border-color: #12131a;
       }
 
       /* ── Galaxy Watch / Round Wearables ── */
@@ -1298,6 +1270,11 @@
       .skin-watch-round .mv-screen-box {
         border-radius: 50%;
         box-shadow: 0 0 0 2px #0a0b0f, 0 0 0 3px rgba(50, 54, 70, 0.4);
+      }
+      .skin-watch-round ~ .mv-watch-strap-top,
+      .skin-watch-round ~ .mv-watch-strap-bottom {
+        background: linear-gradient(180deg, #2b2d3d, #161722);
+        border-color: #12131a;
       }
 
       /* ── Desktop Monitor / Standard Window ── */
@@ -1339,7 +1316,6 @@
         pointer-events: none;
         z-index: 60;
         background:
-          /* Primary diagonal glare sweep */
           linear-gradient(
             125deg,
             rgba(255, 255, 255, 0.08) 0%,
@@ -1348,7 +1324,6 @@
             transparent 45%,
             transparent 100%
           );
-        /* Subtle edge highlight */
         box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
       }
 
@@ -1487,10 +1462,6 @@
       .mv-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; color: #fff; }
       .mv-modal-close { background: none; border: none; color: #7b7f99; font-size: 1.3rem; cursor: pointer; }
       .mv-modal-close:hover { color: #fff; }
-      .mv-modal-desc { font-size: 0.86rem; color: #94a3b8; margin-bottom: 1rem; line-height: 1.45; }
-      .mv-qr-box { padding: 1.2rem; background: #fff; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 0.85rem; }
-      .mv-qr-url-text { font-size: 0.76rem; font-family: monospace; color: #38bdf8; text-align: center; word-break: break-all; margin-bottom: 0.85rem; }
-      .mv-modal-sub { font-size: 0.76rem; color: #7b7f99; text-align: center; }
       .mv-modal-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(6px); }
       .mv-form-row { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 0.95rem; }
       .mv-form-row label { font-size: 0.8rem; font-weight: 600; color: #94a3b8; }
@@ -1506,7 +1477,6 @@
   let activeDeviceIds = new Set(
     DEVICE_DATABASE.filter(d => d.defaultActive).map(d => d.id)
   );
-  let orientations = {}; // deviceId -> 'portrait' | 'landscape'
   let globalZoom = 0.65; // scale factor
   let deviceSkinEnabled = true;
   let customDevices = [];
@@ -1514,57 +1484,6 @@
   let isFreeformMode = false;
   let zCounter = 1;
   let topZ = 100;
-
-  /* ── Open Standalone Window Popup ── */
-  function openDevicePopup(device, urlToOpen, orientationOverride, offsetX = 0, offsetY = 0) {
-    const isLandscape = orientationOverride
-      ? orientationOverride === "landscape"
-      : (orientations[device.id] === "landscape");
-
-    const w = isLandscape ? device.height : device.width;
-    const h = isLandscape ? device.width : device.height;
-
-    // Calculate position on screen
-    const baseLeft = Math.max(0, Math.round((screen.width - w) / 2));
-    const baseTop = Math.max(0, Math.round((screen.height - h) / 2));
-    const left = Math.min(screen.width - w, baseLeft + offsetX);
-    const top = Math.min(screen.height - h, baseTop + offsetY);
-
-    const features = `width=${w},height=${h},left=${left},top=${top},menubar=no,toolbar=no,location=no,status=no,resizable=yes,scrollbars=yes`;
-    
-    // Normalize URL
-    let url = urlToOpen || currentURL;
-    if (!url.startsWith("http://") && !url.startsWith("https://") && !url.startsWith("file://")) {
-      url = "https://" + url;
-    }
-
-    const win = window.open(url, `sentinel_view_${device.id}_${Date.now()}`, features);
-    if (!win) {
-      alert("⚠️ Popup was blocked by your browser! Please allow popups for SentinelConvert in your browser settings to use the standalone window feature.");
-    } else {
-      win.focus();
-    }
-  }
-
-  /* ── Open All Selected Devices in Popups with Tiling ── */
-  function openAllPopups(devices, urlToOpen) {
-    if (!devices || devices.length === 0) {
-      alert("Please select at least one device first.");
-      return;
-    }
-
-    let delay = 0;
-    let offsetStep = 0;
-    devices.forEach((device) => {
-      setTimeout(() => {
-        const ox = (offsetStep % 4) * 60 - 90;
-        const oy = (offsetStep % 4) * 40 - 60;
-        openDevicePopup(device, urlToOpen, null, ox, oy);
-        offsetStep++;
-      }, delay);
-      delay += 200;
-    });
-  }
 
   /* ── Normalize URL Helper ── */
   function formatURL(url) {
@@ -1601,11 +1520,10 @@
           <!-- ── Top Control Bar & URL Input ── -->
           <div class="mv-topbar">
             <div class="mv-hero-row">
-              <div class="mv-hero-badge">⚡ Multi View · Real Phone & Multi-Device Studio</div>
+              <div class="mv-hero-badge">⚡ Multi View · Responsive Device Studio</div>
               <div class="mv-hero-stats">
-                <span class="mv-stat-pill">📱 ${DEVICE_DATABASE.length} Flagship Profiles</span>
-                <span class="mv-stat-pill">✨ Realistic Hardware Bezels</span>
-                <span class="mv-stat-pill">🪟 Standalone Popup Simulator</span>
+                <span class="mv-stat-pill">📱 ${DEVICE_DATABASE.length} Devices</span>
+                <span class="mv-stat-pill">✨ Real Hardware Frames</span>
               </div>
             </div>
             
@@ -1613,7 +1531,6 @@
               <span class="mv-url-icon">🌐</span>
               <input type="text" id="mvUrlInput" class="mv-url-input" placeholder="Paste a URL and press Enter to preview on all ticked devices..." value="${esc(currentURL)}" />
               <span class="mv-url-hint"><kbd>Enter ↵</kbd> to load</span>
-              <button class="mv-btn-icon" id="mvBtnQR" title="Show QR Code for Mobile Testing">📱 QR Share</button>
             </div>
 
             <!-- Quick Presets -->
@@ -1639,7 +1556,7 @@
             </div>
           </div>
 
-          <!-- ── Toolbar (Global Actions, Popups, Zoom, Filter) ── -->
+          <!-- ── Toolbar (Global Actions, Zoom, Filter) ── -->
           <div class="mv-toolbar">
             <!-- Left: Device Category Filter Tabs -->
             <div class="mv-cat-tabs">
@@ -1652,16 +1569,6 @@
 
             <!-- Right: Action Controls -->
             <div class="mv-actions-group">
-              <!-- Launch All Popups -->
-              <button class="mv-action-btn mv-btn-popup-all" id="mvBtnPopupAll" title="Open separate popup windows for all selected devices simultaneously">
-                🪟 Launch Selected Popups (<span id="mvSelectedCount">${activeDeviceIds.size}</span>)
-              </button>
-
-              <!-- Orientation Rotate All -->
-              <button class="mv-action-btn" id="mvBtnRotateAll" title="Rotate all frames Portrait ↔ Landscape">
-                🔄 Rotate All
-              </button>
-
               <!-- Frame Bezel Toggle -->
               <button class="mv-action-btn ${deviceSkinEnabled ? 'active' : ''}" id="mvBtnToggleSkins" title="Toggle realistic device frames/bezels">
                 🎨 ${deviceSkinEnabled ? 'Frames: ON' : 'Frames: OFF'}
@@ -1677,7 +1584,7 @@
               </div>
 
               <!-- Refresh All -->
-              <button class="mv-action-btn" id="mvBtnRefreshAll" title="Reload all iframe views">
+              <button class="mv-action-btn" id="mvBtnRefreshAll" title="Reload all screen frames">
                 🔃 Reload All
               </button>
 
@@ -1687,7 +1594,7 @@
               </button>
 
               <!-- Reset Layout (snap back to grid) -->
-              <button class="mv-action-btn" id="mvBtnResetLayout" title="Reset all phones back to grid layout">
+              <button class="mv-action-btn" id="mvBtnResetLayout" title="Reset all devices back to grid layout">
                 📌 Reset Grid
               </button>
             </div>
@@ -1696,7 +1603,7 @@
           <!-- ── Device Selection Drawer / Fast Picker ── -->
           <div class="mv-picker-panel">
             <div class="mv-picker-header">
-              <span class="mv-picker-title">⚡ Select Devices (Checked devices display live on the canvas below):</span>
+              <span class="mv-picker-title">⚡ Select Devices (Ticked devices display live on the canvas below):</span>
               <div class="mv-picker-quick">
                 <button class="mv-link-btn" id="mvSelectAll">Select All</button>
                 <span>•</span>
@@ -1711,16 +1618,6 @@
             </div>
           </div>
 
-          <!-- ── Iframe Notice & Tip ── -->
-          <div class="mv-notice-bar">
-            <div class="mv-notice-content">
-              <span class="mv-notice-icon">💡</span>
-              <span class="mv-notice-text">
-                <strong>Pro-Tip:</strong> To test projects with restricted iframe headers, click <strong>🪟 Popup</strong> on any device card to launch a standalone pixel-perfect viewport that runs 100% unrestricted!
-              </span>
-            </div>
-          </div>
-
           <!-- ── Live In-App Multi-View Canvas ── -->
           <div class="mv-canvas-wrapper" id="mvCanvasWrapper">
             <div class="mv-canvas-grid ${isFreeformMode ? 'freeform-mode' : 'grid-mode'}" id="mvCanvasGrid" style="--zoom: ${globalZoom};">
@@ -1729,25 +1626,6 @@
             <!-- Invisible overlay to prevent iframes stealing mouse during drag -->
             <div class="mv-drag-shield" id="mvDragShield"></div>
           </div>
-        </div>
-
-        <!-- ── QR Code Modal ── -->
-        <div id="mvQRModal" class="mv-modal">
-          <div class="mv-modal-dialog">
-            <div class="mv-modal-header">
-              <h3>📱 Test on Your Physical Mobile Device</h3>
-              <button class="mv-modal-close" id="mvQRModalClose">✕</button>
-            </div>
-            <div class="mv-modal-body">
-              <p class="mv-modal-desc">Scan this QR code with your phone camera or tablet to test this URL directly on your real hardware:</p>
-              <div class="mv-qr-box" id="mvQRBox">
-                <!-- QR Image loaded here -->
-              </div>
-              <div class="mv-qr-url-text" id="mvQRUrlText"></div>
-              <p class="mv-modal-sub">Ensure your phone and computer are on the same Wi-Fi network if testing localhost.</p>
-            </div>
-          </div>
-          <div class="mv-modal-backdrop" id="mvQRModalBackdrop"></div>
         </div>
 
         <!-- ── Custom Device Modal ── -->
@@ -1784,7 +1662,7 @@
                 </div>
                 <div class="mv-modal-actions">
                   <button type="button" class="btn-secondary" id="mvCustomCancel">Cancel</button>
-                  <button type="submit" class="btn-action">Create & Launch</button>
+                  <button type="submit" class="btn-action">Create & Add</button>
                 </div>
               </form>
             </div>
@@ -1795,13 +1673,9 @@
 
       /* ── DOM References ── */
       const urlInput = body.querySelector("#mvUrlInput");
-      const btnQR = body.querySelector("#mvBtnQR");
       const catTabs = body.querySelectorAll(".mv-tab");
       const deviceCardsGrid = body.querySelector("#mvDeviceCardsGrid");
       const canvasGrid = body.querySelector("#mvCanvasGrid");
-      const selectedCountEl = body.querySelector("#mvSelectedCount");
-      const btnPopupAll = body.querySelector("#mvBtnPopupAll");
-      const btnRotateAll = body.querySelector("#mvBtnRotateAll");
       const btnToggleSkins = body.querySelector("#mvBtnToggleSkins");
       const btnZoomIn = body.querySelector("#mvZoomIn");
       const btnZoomOut = body.querySelector("#mvZoomOut");
@@ -1813,13 +1687,6 @@
       const selectAllBtn = body.querySelector("#mvSelectAll");
       const selectNoneBtn = body.querySelector("#mvSelectNone");
       const selectFlagshipsBtn = body.querySelector("#mvSelectFlagships");
-
-      // Modals
-      const qrModal = body.querySelector("#mvQRModal");
-      const qrModalClose = body.querySelector("#mvQRModalClose");
-      const qrModalBackdrop = body.querySelector("#mvQRModalBackdrop");
-      const qrBox = body.querySelector("#mvQRBox");
-      const qrUrlText = body.querySelector("#mvQRUrlText");
 
       const customModal = body.querySelector("#mvCustomModal");
       const customModalClose = body.querySelector("#mvCustomModalClose");
@@ -1841,9 +1708,6 @@
 
         deviceCardsGrid.innerHTML = filtered.map(d => {
           const isChecked = activeDeviceIds.has(d.id);
-          const isLandscape = orientations[d.id] === "landscape";
-          const displayW = isLandscape ? d.height : d.width;
-          const displayH = isLandscape ? d.width : d.height;
 
           return `
             <div class="mv-device-card ${isChecked ? 'selected' : ''}" data-device-id="${esc(d.id)}">
@@ -1856,7 +1720,7 @@
               </div>
 
               <div class="mv-card-specs">
-                <span class="mv-spec-dim">${displayW} × ${displayH} px</span>
+                <span class="mv-spec-dim">${d.width} × ${d.height} px</span>
                 <span class="mv-spec-os">${esc(d.os || '')}</span>
               </div>
 
@@ -1865,9 +1729,6 @@
                   <input type="checkbox" class="mv-card-check" data-id="${esc(d.id)}" ${isChecked ? 'checked' : ''} />
                   <span>Show Screen</span>
                 </label>
-                <button class="mv-btn-popup-single" data-id="${esc(d.id)}" title="Open dedicated standalone popup window">
-                  🪟 Popup
-                </button>
               </div>
             </div>
           `;
@@ -1882,25 +1743,10 @@
             } else {
               activeDeviceIds.delete(id);
             }
-            updateSelectedCount();
             renderDeviceCards();
             renderCanvasFrames();
           });
         });
-
-        deviceCardsGrid.querySelectorAll(".mv-btn-popup-single").forEach(btn => {
-          btn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            const id = btn.dataset.id;
-            const dev = getAllDevices().find(d => d.id === id);
-            if (dev) openDevicePopup(dev, currentURL);
-          });
-        });
-      }
-
-      /* ── Update Selected Count ── */
-      function updateSelectedCount() {
-        selectedCountEl.textContent = activeDeviceIds.size;
       }
 
       /* ── Render Canvas Frames with Hyper-Realistic Hardware ── */
@@ -1918,7 +1764,7 @@
               <span class="mv-empty-icon">📱</span>
               <h3>No Screens Selected</h3>
               <p>Choose a multi-screen combo above or check one or more devices to preview multiple screens simultaneously.</p>
-              <button class="btn-action" id="mvBtnSelectDefaults">🔥 Load Flagship Trio (3 Screens)</button>
+              <button class="btn-action" id="mvBtnSelectDefaults">🔥 Load Flagship Trio (3 Phones)</button>
             </div>
           `;
           const defBtn = canvasGrid.querySelector("#mvBtnSelectDefaults");
@@ -1926,7 +1772,6 @@
             defBtn.addEventListener("click", () => {
               activeDeviceIds.clear();
               ["iphone-17-pm", "samsung-s25-ultra", "poco-f8-pro"].forEach(id => activeDeviceIds.add(id));
-              updateSelectedCount();
               renderDeviceCards();
               renderCanvasFrames();
             });
@@ -1938,10 +1783,10 @@
         zCounter = 1;
 
         canvasGrid.innerHTML = selected.map(dev => {
-          const isLandscape = orientations[dev.id] === "landscape";
-          const width = isLandscape ? dev.height : dev.width;
-          const height = isLandscape ? dev.width : dev.height;
+          const width = dev.width;
+          const height = dev.height;
           const isMobile = dev.category === "mobile";
+          const isWatch = dev.category === "smartwatch";
           const isIOS = dev.frameType.startsWith("ios");
           const frameClass = deviceSkinEnabled ? `skin-${dev.frameType}` : 'skin-none';
 
@@ -1954,23 +1799,22 @@
                   <span>${dev.icon}</span>
                   <strong>${esc(dev.name)}</strong>
                   <span class="mv-frame-dim">${width} × ${height}</span>
-                  ${isLandscape ? '<span class="mv-pill-landscape">Landscape</span>' : ''}
                 </div>
 
                 <div class="mv-frame-ctrls">
-                  <button class="mv-frame-ctrl-btn mv-ctrl-popup" data-id="${esc(dev.id)}" title="Open as Standalone Popup Window">🪟 Popup</button>
-                  <button class="mv-frame-ctrl-btn mv-ctrl-rotate" data-id="${esc(dev.id)}" title="Rotate Orientation">🔄 Rotate</button>
                   <button class="mv-frame-ctrl-btn mv-ctrl-reload" data-id="${esc(dev.id)}" title="Reload Frame">🔃</button>
                   <button class="mv-frame-ctrl-btn mv-ctrl-remove" data-id="${esc(dev.id)}" title="Remove screen">✕</button>
                 </div>
               </div>
 
-              <!-- Phone Chassis Wrapper with Physical Hardware Buttons -->
+              <!-- Phone Chassis Wrapper with Physical Hardware Buttons & Watch Straps -->
               <div class="mv-phone-wrapper">
-                <div class="mv-phone-chassis ${frameClass} ${isLandscape ? 'is-landscape' : 'is-portrait'}">
+                ${isWatch && deviceSkinEnabled ? `<div class="mv-watch-strap-top"></div>` : ''}
+
+                <div class="mv-phone-chassis ${frameClass}">
                   
                   <!-- Physical Hardware Buttons (Side volume, action, power) -->
-                  ${isMobile && deviceSkinEnabled && !isLandscape ? `
+                  ${isMobile && deviceSkinEnabled ? `
                     <div class="mv-hw-btn mv-btn-action"></div>
                     <div class="mv-hw-btn mv-btn-vol-up"></div>
                     <div class="mv-hw-btn mv-btn-vol-down"></div>
@@ -1983,13 +1827,18 @@
 
                   ${dev.frameType === 'watch-apple-ultra' && deviceSkinEnabled ? `
                     <div class="mv-watch-crown"></div>
+                    <div class="mv-watch-btn-orange"></div>
+                  ` : ''}
+
+                  ${dev.frameType === 'watch-apple' && deviceSkinEnabled ? `
+                    <div class="mv-watch-crown"></div>
                   ` : ''}
 
                   <!-- Screen Container -->
                   <div class="mv-screen-box" style="width: ${width}px; height: ${height}px;">
                     
                     <!-- Realistic Mobile OS Status Bar Overlay -->
-                    ${isMobile && deviceSkinEnabled && !isLandscape ? `
+                    ${isMobile && deviceSkinEnabled ? `
                       <div class="mv-status-bar">
                         <span class="mv-status-time">${isIOS ? '9:41' : '12:00'}</span>
                         
@@ -2032,7 +1881,7 @@
                     ${deviceSkinEnabled ? '<div class="mv-screen-glare"></div>' : ''}
 
                     <!-- Bottom Gesture / Home Bar -->
-                    ${isMobile && deviceSkinEnabled && !isLandscape ? `
+                    ${isMobile && deviceSkinEnabled ? `
                       <div class="mv-home-indicator"></div>
                     ` : ''}
                   </div>
@@ -2042,28 +1891,14 @@
                     <div class="mv-laptop-base"></div>
                   ` : ''}
                 </div>
+
+                ${isWatch && deviceSkinEnabled ? `<div class="mv-watch-strap-bottom"></div>` : ''}
               </div>
             </div>
           `;
         }).join("");
 
         // Attach frame action buttons
-        canvasGrid.querySelectorAll(".mv-ctrl-popup").forEach(btn => {
-          btn.addEventListener("click", () => {
-            const dev = all.find(d => d.id === btn.dataset.id);
-            if (dev) openDevicePopup(dev, currentURL);
-          });
-        });
-
-        canvasGrid.querySelectorAll(".mv-ctrl-rotate").forEach(btn => {
-          btn.addEventListener("click", () => {
-            const id = btn.dataset.id;
-            orientations[id] = orientations[id] === "landscape" ? "portrait" : "landscape";
-            renderCanvasFrames();
-            renderDeviceCards();
-          });
-        });
-
         canvasGrid.querySelectorAll(".mv-ctrl-reload").forEach(btn => {
           btn.addEventListener("click", () => {
             const card = btn.closest(".mv-frame-card");
@@ -2078,7 +1913,6 @@
           btn.addEventListener("click", () => {
             activeDeviceIds.delete(btn.dataset.id);
             delete devicePositions[btn.dataset.id];
-            updateSelectedCount();
             renderDeviceCards();
             renderCanvasFrames();
           });
@@ -2295,7 +2129,6 @@
           if (combo) {
             activeDeviceIds.clear();
             combo.deviceIds.forEach(id => activeDeviceIds.add(id));
-            updateSelectedCount();
             renderDeviceCards();
             renderCanvasFrames();
           }
@@ -2310,29 +2143,6 @@
           activeCategory = tab.dataset.cat;
           renderDeviceCards();
         });
-      });
-
-      // Launch All Popups
-      btnPopupAll.addEventListener("click", () => {
-        const all = getAllDevices();
-        const selected = all.filter(d => activeDeviceIds.has(d.id));
-        if (selected.length === 0) {
-          alert("Please select at least one device to open popups.");
-          return;
-        }
-        openAllPopups(selected, currentURL);
-      });
-
-      // Rotate All
-      btnRotateAll.addEventListener("click", () => {
-        const all = getAllDevices();
-        const hasPortrait = all.some(d => activeDeviceIds.has(d.id) && orientations[d.id] !== "landscape");
-        const nextState = hasPortrait ? "landscape" : "portrait";
-        all.forEach(d => {
-          orientations[d.id] = nextState;
-        });
-        renderCanvasFrames();
-        renderDeviceCards();
       });
 
       // Toggle Skins / Frames
@@ -2357,14 +2167,12 @@
       // Quick Select Drawer buttons
       selectAllBtn.addEventListener("click", () => {
         getAllDevices().forEach(d => activeDeviceIds.add(d.id));
-        updateSelectedCount();
         renderDeviceCards();
         renderCanvasFrames();
       });
 
       selectNoneBtn.addEventListener("click", () => {
         activeDeviceIds.clear();
-        updateSelectedCount();
         renderDeviceCards();
         renderCanvasFrames();
       });
@@ -2374,22 +2182,9 @@
         ["iphone-17-pm", "samsung-s25-ultra", "poco-f8-pro"].forEach(id => {
           activeDeviceIds.add(id);
         });
-        updateSelectedCount();
         renderDeviceCards();
         renderCanvasFrames();
       });
-
-      // QR Code Modal
-      btnQR.addEventListener("click", () => {
-        const validUrl = formatURL(currentURL);
-        qrUrlText.textContent = validUrl;
-        qrBox.innerHTML = `<img src="${generateQRCodeDataURL(validUrl)}" alt="QR Code for ${esc(validUrl)}" style="width:200px;height:200px;border-radius:12px;display:block;margin:0 auto;" />`;
-        qrModal.classList.add("active");
-      });
-
-      function closeQRModal() { qrModal.classList.remove("active"); }
-      qrModalClose.addEventListener("click", closeQRModal);
-      qrModalBackdrop.addEventListener("click", closeQRModal);
 
       // Reset Layout (snap back to grid)
       btnResetLayout.addEventListener("click", () => {
@@ -2428,26 +2223,20 @@
           os: "Custom",
           frameType: cat === "mobile" ? "android-hole" : (cat === "tablet" ? "tablet-android" : (cat === "smartwatch" ? "watch-round" : "window")),
           icon: cat === "mobile" ? "📱" : (cat === "tablet" ? "📟" : (cat === "smartwatch" ? "⌚" : "💻")),
-          badge: "Custom",
-          defaultActive: true
+          badge: "Custom"
         };
 
         customDevices.push(customDev);
         activeDeviceIds.add(customDev.id);
         closeCustomModal();
         customForm.reset();
-        updateSelectedCount();
         renderDeviceCards();
         renderCanvasFrames();
-
-        // Option to open popup immediately
-        openDevicePopup(customDev, currentURL);
       });
 
-      // Initial Render — show device cards but canvas shows empty state until user presses Enter
+      // Initial Render
       renderDeviceCards();
       renderCanvasFrames();
-      updateSelectedCount();
 
       // Auto-focus the URL input for quick paste & Enter workflow
       setTimeout(() => urlInput.focus(), 100);
